@@ -90,4 +90,52 @@ export class CoinGeckoService {
       lastUpdated: data.last_updated,
     };
   }
+
+  static async getCoinsByIds(ids: string[]): Promise<Coin[]> {
+    if (ids.length === 0) return [];
+    
+    const idsParam = ids.join(',');
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${idsParam}&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en`,
+      {
+        headers: {
+          'Accept': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch coins: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    return data.map((coin: any): Coin => ({
+      id: coin.id,
+      symbol: coin.symbol,
+      name: coin.name,
+      image: coin.image,
+      currentPrice: coin.current_price,
+      marketCap: coin.market_cap,
+      marketCapRank: coin.market_cap_rank,
+      fullyDilutedValuation: coin.fully_diluted_valuation,
+      totalVolume: coin.total_volume,
+      high24h: coin.high_24h,
+      low24h: coin.low_24h,
+      priceChange24h: coin.price_change_24h,
+      priceChangePercentage24h: coin.price_change_percentage_24h,
+      marketCapChange24h: coin.market_cap_change_24h,
+      marketCapChangePercentage24h: coin.market_cap_change_percentage_24h,
+      circulatingSupply: coin.circulating_supply,
+      totalSupply: coin.total_supply,
+      maxSupply: coin.max_supply,
+      ath: coin.ath,
+      athChangePercentage: coin.ath_change_percentage,
+      athDate: coin.ath_date,
+      atl: coin.atl,
+      atlChangePercentage: coin.atl_change_percentage,
+      atlDate: coin.atl_date,
+      lastUpdated: coin.last_updated,
+    }));
+  }
 }

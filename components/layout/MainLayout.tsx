@@ -26,9 +26,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
   };
 
   const menuItems = [
-    { text: 'Home', href: '#home' },
-    { text: 'About', href: '#about' },
-    { text: 'Contact', href: '#contact' },
+    { text: 'Home', href: '/' },
+    { text: 'Portfolio', href: '/portfolio' },
   ];
 
   return (

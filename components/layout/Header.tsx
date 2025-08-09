@@ -145,16 +145,13 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
                     borderRadius: 2,
                     textTransform: 'none',
                     fontWeight: pathname === item.path ? 600 : 500,
-                    color: pathname === item.path ? 'primary.main' : 'text.primary',
-                    bgcolor: pathname === item.path ? alpha(theme.palette.primary.main, 0.12) : 'transparent',
+                    color: pathname === item.path ? 'primary.dark' : 'text.primary',
+                    bgcolor: 'transparent',
                     px: 2,
                     py: 1,
                     transition: 'all 0.2s ease',
                     '&:hover': {
-                      color: alpha(theme.palette.primary.main, 0.8),
-                      bgcolor: pathname === item.path
-                        ? theme.palette.background.paper
-                        : theme.palette.background.default,
+                      color: theme.palette.primary.dark,
                     },
                   }}
                 >

@@ -23,7 +23,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ 
   onSearch, 
-  placeholder = "Search cryptocurrencies...",
+  placeholder = "Search coins...",
   debounceMs = 500,
   value: controlledValue,
   onChange,
@@ -64,7 +64,7 @@ export default function SearchBar({
       sx={{
         borderRadius: 2,
         border: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
-        backgroundColor: alpha(theme.palette.background.paper, 0.8),
+        backgroundColor: theme.palette.background.default,
         backdropFilter: 'blur(8px)',
         transition: 'all 0.2s ease-in-out',
         '&:focus-within': {
@@ -82,43 +82,45 @@ export default function SearchBar({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
-            </InputAdornment>
-          ),
-          endAdornment: value && (
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClear}
-                size="small"
-                edge="end"
-                sx={{
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
+              </InputAdornment>
+            ),
+            endAdornment: value && (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClear}
+                  size="small"
+                  edge="end"
+                  sx={{
+                    color: 'text.secondary',
+                    '&:hover': {
+                      color: 'text.primary',
+                      backgroundColor: alpha(theme.palette.text.primary, 0.08),
+                    },
+                  }}
+                >
+                  <Clear fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+            sx: {
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '& .MuiInputBase-input': {
+                fontSize: '1rem',
+                py: 1.5,
+                '&::placeholder': {
                   color: 'text.secondary',
-                  '&:hover': {
-                    color: 'text.primary',
-                    backgroundColor: alpha(theme.palette.text.primary, 0.08),
-                  },
-                }}
-              >
-                <Clear fontSize="small" />
-              </IconButton>
-            </InputAdornment>
-          ),
-          sx: {
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '& .MuiInputBase-input': {
-              fontSize: '1rem',
-              py: 1.5,
-              '&::placeholder': {
-                color: 'text.secondary',
-                opacity: 0.7,
+                  opacity: 0.7,
+                },
               },
             },
-          },
+          }
         }}
       />
     </Paper>

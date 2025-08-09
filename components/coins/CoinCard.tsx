@@ -49,10 +49,7 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
           transition: 'all 0.2s ease-in-out',
           position: 'relative',
           '&:hover': {
-            boxShadow: `0 2px 10px ${theme.palette.mode === 'dark'
-              ? '#6878E2'
-              : '#CCCCCC'
-              }`,
+            boxShadow: `0 2px 10px ${theme.palette.primary.main}`,
           },
         })}
       >

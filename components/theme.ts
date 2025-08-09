@@ -5,16 +5,16 @@ export const lightTheme: ThemeOptions = {
   palette: {
     mode: 'light',
     primary: {
-      main: '#1976d2',
-      light: '#42a5f5',
-      dark: '#1565c0',
+      main: '#34e834',
+    light: '#66f066',
+    dark: '#26b026',
     },
     secondary: {
       main: '#dc004e',
     },
     background: {
-      default: '#fafafa',
-      paper: '#ffffff',
+      default: '#FFFFFF',
+      paper: '#F6F6F6',
     },
     text: {
       primary: '#1a1a1a',
@@ -84,15 +84,15 @@ export const darkTheme: ThemeOptions = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#90caf9',
-      light: '#bbdefb',
-      dark: '#64b5f6',
+      main: '#34e834',
+      light: '#66f066',
+      dark: '#26b026',
     },
     secondary: {
       main: '#f48fb1',
     },
     background: {
-      default: '#0a0a0a',
+      default: '#red',
       paper: '#1a1a1a',
     },
     text: {

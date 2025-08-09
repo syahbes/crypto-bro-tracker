@@ -204,7 +204,7 @@ export default function PortfolioPage() {
 
       {/* Portfolio Overview Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid sx={{mb:4}}>
           <Card
             elevation={0}
             sx={{
@@ -226,7 +226,7 @@ export default function PortfolioPage() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid sx={{mb:4}}>
           <Card
             elevation={0}
             sx={{
@@ -265,7 +265,7 @@ export default function PortfolioPage() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid sx={{mb:4}}>
           <Card
             elevation={0}
             sx={{
@@ -538,7 +538,7 @@ function PortfolioSkeleton() {
       
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {[...Array(3)].map((_, i) => (
-          <Grid item xs={12} md={4} key={i}>
+          <Grid sx={{mb:4}} key={i}>
             <Paper sx={{ p: 3, textAlign: 'center', borderRadius: 3 }}>
               <Skeleton variant="circular" width={40} height={40} sx={{ mx: 'auto', mb: 1 }} />
               <Skeleton variant="text" width={120} height={20} sx={{ mx: 'auto', mb: 1 }} />

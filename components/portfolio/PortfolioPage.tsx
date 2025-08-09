@@ -214,7 +214,7 @@ export default function PortfolioPage() {
               backdropFilter: 'blur(8px)',
             }}
           >
-            <CardContent sx={{ textAlign: 'center' }}>
+            <CardContent sx={{ textAlign: 'center', minHeight: 180 }}>
               <AccountBalance sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 Total Portfolio Value
@@ -236,7 +236,7 @@ export default function PortfolioPage() {
               backdropFilter: 'blur(8px)',
             }}
           >
-            <CardContent sx={{ textAlign: 'center' }}>
+            <CardContent sx={{ textAlign: 'center', minHeight: 180 }}>
               <ShowChart sx={{ fontSize: 40, color: totalChangeColor, mb: 1 }} />
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 Total Gain/Loss
@@ -275,7 +275,7 @@ export default function PortfolioPage() {
               backdropFilter: 'blur(8px)',
             }}
           >
-            <CardContent sx={{ textAlign: 'center' }}>
+            <CardContent sx={{ textAlign: 'center', minHeight: 180 }}>
               <PieChart sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 Total Holdings

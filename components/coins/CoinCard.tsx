@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { TrendingUp, TrendingDown, Add } from '@mui/icons-material';
 import { Coin } from '@/types/crypto';
+import Link from 'next/link';
 
 interface CoinCardProps {
   coin: Coin;
@@ -23,6 +24,8 @@ interface CoinCardProps {
 }
 
 export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = false }: CoinCardProps) {
+  
+
   if (loading) {
     return <CoinCardSkeleton />;
   }
@@ -45,11 +48,7 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
     return `$${value.toFixed(2)}`;
   };
 
-  const handleCardClick = () => {
-    if (onClick) {
-      onClick(coin);
-    }
-  };
+
 
   const handleAddClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,6 +58,9 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
   };
 
   return (
+    <Link href={`/coins/${coin.id}`}>
+
+    
     <Card
       sx={(theme) => ({
         width: 280, // fixed width for both desktop & mobile
@@ -76,7 +78,7 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
           }
           : {},
       })}
-      onClick={handleCardClick}
+     
     >
 
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
@@ -178,6 +180,7 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
         </Box>
       </CardContent>
     </Card>
+    </Link>
   );
 }
 

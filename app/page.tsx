@@ -1,61 +1,69 @@
 // app/page.tsx
-'use client';
-
 import React from 'react';
-import { Container, Typography, Box, Paper, Grid, Button } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Container, Typography, Box } from '@mui/material';
+import { CoinGeckoService } from '@/lib/api/coingecko';
+import { Coin } from '@/types/crypto';
+import CoinListClient from '@/components/coins/CoinListClient';
 
-export default function HomePage() {
-  const theme = useTheme();
+// This is a Server Component that uses SSR
+export default async function HomePage() {
+  let initialCoins: Coin[] = [];
+  let error: string | null = null;
+
+  try {
+    // Fetch initial data on the server
+    initialCoins = await CoinGeckoService.getCoins({
+      vs_currency: 'usd',
+      order: 'market_cap_desc',
+      per_page: 50,
+      page: 1,
+      sparkline: false,
+      price_change_percentage: '24h',
+    });
+  } catch (err) {
+    console.error('Failed to fetch initial coins:', err);
+    error = 'Failed to load cryptocurrency data. Please try again later.';
+  }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography
-          variant="h2"
-          component="h1"
-          sx={{
-            mb: 2,
+        <Typography 
+          variant="h3" 
+          component="h1" 
+          sx={{ 
             fontWeight: 700,
-            textAlign: 'center',
-            background: 'linear-gradient(90deg,rgb(52, 255, 103), #ee0979)',
+            mb: 1,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            color: 'transparent',
           }}
         >
-          SY Market
+          Cryptocurrency Portfolio Tracker
         </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            color: theme.palette.text.secondary,
-            textAlign: 'center',
-            maxWidth: 600,
-            mx: 'auto',
-          }}
+        <Typography 
+          variant="h6" 
+          color="text.secondary"
+          sx={{ fontWeight: 400 }}
         >
-          Track real-time cryptocurrency prices, build your portfolio, and monitor your investments all in one place
+          Track and manage your crypto investments
         </Typography>
       </Box>
 
-
-      <Box sx={{ mt: 4, textAlign: 'center' }}>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            px: 4,
-            py: 1.5,
-            borderRadius: 2,
-            textTransform: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Get Started
-        </Button>
-      </Box>
+      {/* Client Component for interactive features */}
+      <CoinListClient 
+        initialCoins={initialCoins} 
+        initialError={error}
+      />
     </Container>
   );
 }
+
+// Metadata for SEO
+export const metadata = {
+  title: 'Crypto Portfolio Tracker | Track Your Investments',
+  description: 'Track and manage your cryptocurrency portfolio with real-time prices, market data, and performance analytics.',
+  keywords: 'cryptocurrency, bitcoin, ethereum, portfolio, tracker, crypto, investment',
+};

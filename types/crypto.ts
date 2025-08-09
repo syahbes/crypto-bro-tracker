@@ -42,6 +42,19 @@ export interface CoinGeckoMarketData {
     high24h: number;
     low24h: number;
     lastUpdated: string;
+    fullyDilutedValuation?: number | null;
+    circulatingSupply?: number;
+    totalSupply?: number | null;
+    maxSupply?: number | null;
+    ath?: number;
+    athChangePercentage?: number;
+    athDate?: string;
+    atl?: number;
+    atlChangePercentage?: number;
+    atlDate?: string;
+    roi?: null;
+    marketCapChange24h?: number;
+    marketCapChangePercentage24h?: number;
   }
   
   export interface CoinListParams {

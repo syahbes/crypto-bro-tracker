@@ -18,6 +18,7 @@ interface PortfolioState {
   totalValue: number;
   totalGainLoss: number;
   totalGainLossPercentage: number;
+  isLoaded: boolean;
 }
 
 const initialState: PortfolioState = {
@@ -25,6 +26,33 @@ const initialState: PortfolioState = {
   totalValue: 0,
   totalGainLoss: 0,
   totalGainLossPercentage: 0,
+  isLoaded: false,
+};
+
+// LocalStorage utilities
+const PORTFOLIO_STORAGE_KEY = 'crypto_portfolio';
+
+const saveToLocalStorage = (items: PortfolioItem[]) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(items));
+    } catch (error) {
+      console.error('Error saving portfolio to localStorage:', error);
+    }
+  }
+};
+
+const loadFromLocalStorage = (): PortfolioItem[] => {
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Error loading portfolio from localStorage:', error);
+      return [];
+    }
+  }
+  return [];
 };
 
 const portfolioSlice = createSlice({
@@ -34,25 +62,36 @@ const portfolioSlice = createSlice({
     addToPortfolio: (state, action: PayloadAction<PortfolioItem>) => {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
+        // Calculate weighted average purchase price
         const totalAmount = existingItem.amount + action.payload.amount;
         const totalValue = (existingItem.amount * existingItem.purchasePrice) +
                           (action.payload.amount * action.payload.purchasePrice);
         existingItem.amount = totalAmount;
         existingItem.purchasePrice = totalValue / totalAmount;
-        existingItem.purchaseDate = action.payload.purchaseDate;
+        existingItem.purchaseDate = action.payload.purchaseDate; // Update to latest purchase date
       } else {
         state.items.push(action.payload);
       }
+      saveToLocalStorage(state.items);
     },
+    
     removeFromPortfolio: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
+      saveToLocalStorage(state.items);
     },
+    
     updatePortfolioItem: (state, action: PayloadAction<{ id: string; amount: number }>) => {
       const item = state.items.find(item => item.id === action.payload.id);
       if (item) {
-        item.amount = action.payload.amount;
+        if (action.payload.amount <= 0) {
+          state.items = state.items.filter(item => item.id !== action.payload.id);
+        } else {
+          item.amount = action.payload.amount;
+        }
+        saveToLocalStorage(state.items);
       }
     },
+    
     updateCurrentPrices: (state, action: PayloadAction<Record<string, number>>) => {
       state.items.forEach(item => {
         if (action.payload[item.id]) {
@@ -60,6 +99,7 @@ const portfolioSlice = createSlice({
         }
       });
 
+      // Recalculate totals
       let totalValue = 0;
       let totalCost = 0;
 
@@ -76,8 +116,29 @@ const portfolioSlice = createSlice({
         ? ((totalValue - totalCost) / totalCost) * 100
         : 0;
     },
-    loadPortfolioFromStorage: (state, action: PayloadAction<PortfolioItem[]>) => {
-      state.items = action.payload;
+    
+    loadPortfolioFromStorage: (state) => {
+      const storedItems = loadFromLocalStorage();
+      state.items = storedItems;
+      state.isLoaded = true;
+      
+      // Calculate initial totals (without current prices)
+      let totalCost = 0;
+      state.items.forEach(item => {
+        totalCost += item.amount * item.purchasePrice;
+      });
+      
+      state.totalValue = totalCost; // Will be updated when current prices are fetched
+      state.totalGainLoss = 0;
+      state.totalGainLossPercentage = 0;
+    },
+    
+    clearPortfolio: (state) => {
+      state.items = [];
+      state.totalValue = 0;
+      state.totalGainLoss = 0;
+      state.totalGainLossPercentage = 0;
+      saveToLocalStorage([]);
     },
   },
 });
@@ -88,14 +149,21 @@ export const {
   updatePortfolioItem,
   updateCurrentPrices,
   loadPortfolioFromStorage,
+  clearPortfolio,
 } = portfolioSlice.actions;
 
-// ⬅ Change: create a store per request
+// Create store factory
 export const makeStore = () => {
   return configureStore({
     reducer: {
       portfolio: portfolioSlice.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ['portfolio/loadPortfolioFromStorage'],
+        },
+      }),
   });
 };
 

@@ -19,6 +19,7 @@ import {
   Divider,
   LinearProgress,
   useMediaQuery,
+  Snackbar,
 } from '@mui/material';
 import {
   TrendingUp,
@@ -29,12 +30,13 @@ import {
   BookmarkBorder,
   Bookmark,
   Share,
-  Timeline,
+  CheckCircle,
 } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { CoinGeckoService } from '@/lib/api/coingecko';
 import { Coin } from '@/types/crypto';
+import { useAppDispatch, useAppSelector, addToPortfolio, type PortfolioItem } from '@/lib/store';
 
 interface CoinDetailPageProps {
   coinId: string;
@@ -44,10 +46,16 @@ interface CoinDetailPageProps {
 export default function CoinDetailPage({ coinId, initialData = null }: CoinDetailPageProps) {
   const theme = useTheme();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   const [isFavorite, setIsFavorite] = useState(false);
   const [portfolioAmount, setPortfolioAmount] = useState(0);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  // Get portfolio items to check if this coin is already in portfolio
+  const portfolioItems = useAppSelector((state) => state.portfolio.items);
+  const existingPortfolioItem = portfolioItems.find(item => item.id === coinId);
 
   const { 
     data: coin, 
@@ -84,8 +92,22 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   };
 
   const handleAddToPortfolio = () => {
-    console.log('Add to portfolio clicked for:', coin?.name, 'Amount:', portfolioAmount);
-    // TODO: Implement actual add to portfolio functionality
+    if (!coin || portfolioAmount <= 0) return;
+
+    const portfolioItem: PortfolioItem = {
+      id: coin.id,
+      symbol: coin.symbol.toUpperCase(),
+      name: coin.name,
+      image: coin.image,
+      amount: portfolioAmount,
+      purchasePrice: coin.currentPrice,
+      purchaseDate: new Date().toISOString(),
+      currentPrice: coin.currentPrice,
+    };
+
+    dispatch(addToPortfolio(portfolioItem));
+    setShowSuccessMessage(true);
+    setPortfolioAmount(0); // Reset amount after adding
   };
 
   const handleShare = () => {
@@ -132,6 +154,24 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
       p: { xs: 2, sm: 3 },
       pb: { xs: 4, sm: 3 } // Extra padding bottom on mobile
     }}>
+      {/* Success Snackbar */}
+      <Snackbar
+        open={showSuccessMessage}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccessMessage(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setShowSuccessMessage(false)} 
+          severity="success" 
+          variant="filled"
+          icon={<CheckCircle />}
+          sx={{ width: '100%' }}
+        >
+          Successfully added {portfolioAmount} {coin.symbol.toUpperCase()} to your portfolio!
+        </Alert>
+      </Snackbar>
+
       {/* Header */}
       <Box sx={{ mb: 3 }}>
         <Box display="flex" alignItems="center" gap={2} mb={2}>
@@ -218,6 +258,15 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                       variant="outlined"
                       sx={{ height: 24 }}
                     />
+                    {existingPortfolioItem && (
+                      <Chip
+                        label="In Portfolio"
+                        size="small"
+                        color="primary"
+                        variant="filled"
+                        sx={{ height: 24 }}
+                      />
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -472,6 +521,12 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
               >
                 Add to Portfolio
               </Typography>
+
+              {existingPortfolioItem && (
+                <Alert severity="info" sx={{ mb: 3 }}>
+                  You already own {existingPortfolioItem.amount?.toFixed(6)} {coin.symbol.toUpperCase()} in your portfolio
+                </Alert>
+              )}
               
               <Box sx={{ mb: 3 }}>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -536,6 +591,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     }}
                   >
                     {formatCurrency(portfolioAmount * coin.currentPrice)}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                    Purchase Price: {formatCurrency(coin.currentPrice)} per {coin.symbol.toUpperCase()}
                   </Typography>
                 </Box>
               )}

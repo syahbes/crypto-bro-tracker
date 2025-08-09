@@ -121,7 +121,7 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
               }}
             >
               <span style={{ color: '#34E834' }}>SY </span>
-              Market
+              Markets
             </Typography>
           </Box>
 

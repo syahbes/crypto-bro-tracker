@@ -25,6 +25,7 @@ import {
   TrendingUp,
   TrendingDown,
   FilterList,
+  Refresh,
 } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { CoinGeckoService } from '@/lib/api/coingecko';
@@ -306,7 +307,7 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
         {isFetching ? (
           <CircularProgress size={24} color="inherit" />
         ) : (
-          <FilterList />
+          <Refresh />
         )}
       </Fab>
     </Box>

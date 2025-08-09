@@ -72,15 +72,15 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   };
 
   const formatMarketCap = (value: number) => {
-    if (value >= 1e12) return `$${(value / 1e12).toFixed(2)}T`;
-    if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}B`;
-    if (value >= 1e6) return `$${(value / 1e6).toFixed(2)}M`;
-    if (value >= 1e3) return `$${(value / 1e3).toFixed(2)}K`;
-    return `$${value.toFixed(2)}`;
+    if (value >= 1e12) return `$${(value / 1e12)?.toFixed(2)}T`;
+    if (value >= 1e9) return `$${(value / 1e9)?.toFixed(2)}B`;
+    if (value >= 1e6) return `$${(value / 1e6)?.toFixed(2)}M`;
+    if (value >= 1e3) return `$${(value / 1e3)?.toFixed(2)}K`;
+    return `$${value?.toFixed(2)}`;
   };
 
   const formatPercentage = (value: number) => {
-    return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+    return `${value >= 0 ? '+' : ''}${value?.toFixed(2)}%`;
   };
 
   const handleAddToPortfolio = () => {
@@ -437,7 +437,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
                 >
-                  {((coin.totalVolume / coin.marketCap) * 100).toFixed(2)}%
+                  {((coin.totalVolume / coin.marketCap) * 100)?.toFixed(2)}%
                 </Typography>
               </Box>
             </Box>
@@ -503,7 +503,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                         fontSize: { xs: '1rem', sm: '1.25rem' }
                       }}
                     >
-                      {portfolioAmount.toFixed(6)}
+                      {portfolioAmount?.toFixed(6)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {coin.symbol}

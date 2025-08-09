@@ -24,7 +24,7 @@ interface CoinCardProps {
 }
 
 export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = false }: CoinCardProps) {
-  
+
 
   if (loading) {
     return <CoinCardSkeleton />;
@@ -41,11 +41,11 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
   };
 
   const formatMarketCap = (value: number) => {
-    if (value >= 1e12) return `$${(value / 1e12).toFixed(2)}T`;
-    if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}B`;
-    if (value >= 1e6) return `$${(value / 1e6).toFixed(2)}M`;
-    if (value >= 1e3) return `$${(value / 1e3).toFixed(2)}K`;
-    return `$${value.toFixed(2)}`;
+    if (value >= 1e12) return `$${(value / 1e12)?.toFixed(2)}T`;
+    if (value >= 1e9) return `$${(value / 1e9)?.toFixed(2)}B`;
+    if (value >= 1e6) return `$${(value / 1e6)?.toFixed(2)}M`;
+    if (value >= 1e3) return `$${(value / 1e3)?.toFixed(2)}K`;
+    return `$${value?.toFixed(2)}`;
   };
 
 
@@ -60,126 +60,126 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
   return (
     <Link href={`/coins/${coin.id}`}>
 
-    
-    <Card
-      sx={(theme) => ({
-        width: 280, // fixed width for both desktop & mobile
-        flexShrink: 0, // prevents shrinking in flex layouts
-        height: '100%',
-        cursor: onClick ? 'pointer' : 'default',
-        transition: 'all 0.2s ease-in-out',
-        position: 'relative',
-        '&:hover': onClick
-          ? {
-            boxShadow: `0 4px 20px ${theme.palette.mode === 'dark'
+
+      <Card
+        sx={(theme) => ({
+          width: 280, // fixed width for both desktop & mobile
+          flexShrink: 0, // prevents shrinking in flex layouts
+          height: '100%',
+          cursor: onClick ? 'pointer' : 'default',
+          transition: 'all 0.2s ease-in-out',
+          position: 'relative',
+          '&:hover': onClick
+            ? {
+              boxShadow: `0 4px 20px ${theme.palette.mode === 'dark'
                 ? 'rgba(226, 8, 255, 0.57)'
                 : 'rgba(0, 0, 0, 0.2)'
-              }`,
-          }
-          : {},
-      })}
-     
-    >
+                }`,
+            }
+            : {},
+        })}
 
-      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-        {/* Header with Avatar and Add Button */}
-        <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
-          <Box display="flex" alignItems="center" gap={1.5}>
-            <Avatar
-              src={coin.image}
-              alt={coin.name}
-              sx={{ width: 40, height: 40 }}
-            />
-            <Box>
-              <Typography variant="h6" component="h3" sx={{ fontWeight: 600, fontSize: '1rem' }}>
-                {coin.name}
-              </Typography>
+      >
+
+        <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+          {/* Header with Avatar and Add Button */}
+          <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+            <Box display="flex" alignItems="center" gap={1.5}>
+              <Avatar
+                src={coin.image}
+                alt={coin.name}
+                sx={{ width: 40, height: 40 }}
+              />
+              <Box>
+                <Typography variant="h6" component="h3" sx={{ fontWeight: 600, fontSize: '1rem' }}>
+                  {coin.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {coin.symbol}
+                </Typography>
+              </Box>
+            </Box>
+
+            {onAddToPortfolio && (
+              <IconButton
+                onClick={handleAddClick}
+                size="small"
+                color="primary"
+                sx={{
+                  bgcolor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  width: 32,
+                  height: 32,
+                }}
+              >
+                <Add fontSize="small" />
+              </IconButton>
+            )}
+          </Box>
+
+          {/* Price */}
+          <Typography variant="h5" component="p" sx={{ fontWeight: 700, mb: 1 }}>
+            {formatCurrency(coin.currentPrice)}
+          </Typography>
+
+          {/* Price Change */}
+          <Box display="flex" alignItems="center" gap={0.5} mb={2}>
+            {isPositive ? (
+              <TrendingUp sx={{ fontSize: 16, color: 'success.main' }} />
+            ) : (
+              <TrendingDown sx={{ fontSize: 16, color: 'error.main' }} />
+            )}
+            <Typography
+              variant="body2"
+              sx={{
+                color: isPositive ? 'success.main' : 'error.main',
+                fontWeight: 600,
+              }}
+            >
+              {isPositive ? '+' : ''}{coin.priceChangePercentage24h?.toFixed(2)}%
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              ({isPositive ? '+' : ''}{formatCurrency(coin.priceChange24h)})
+            </Typography>
+          </Box>
+
+          {/* Market Info */}
+          <Box display="flex" flexDirection="column" gap={1}>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
               <Typography variant="body2" color="text.secondary">
-                {coin.symbol}
+                Market Cap
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                {formatMarketCap(coin.marketCap)}
+              </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                Rank
+              </Typography>
+              <Chip
+                label={`#${coin.marketCapRank}`}
+                size="small"
+                variant="outlined"
+                sx={{ height: 20, fontSize: '0.75rem' }}
+              />
+            </Box>
+
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                24h Volume
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                {formatMarketCap(coin.totalVolume)}
               </Typography>
             </Box>
           </Box>
-
-          {onAddToPortfolio && (
-            <IconButton
-              onClick={handleAddClick}
-              size="small"
-              color="primary"
-              sx={{
-                bgcolor: 'primary.main',
-                color: 'white',
-                '&:hover': {
-                  bgcolor: 'primary.dark',
-                },
-                width: 32,
-                height: 32,
-              }}
-            >
-              <Add fontSize="small" />
-            </IconButton>
-          )}
-        </Box>
-
-        {/* Price */}
-        <Typography variant="h5" component="p" sx={{ fontWeight: 700, mb: 1 }}>
-          {formatCurrency(coin.currentPrice)}
-        </Typography>
-
-        {/* Price Change */}
-        <Box display="flex" alignItems="center" gap={0.5} mb={2}>
-          {isPositive ? (
-            <TrendingUp sx={{ fontSize: 16, color: 'success.main' }} />
-          ) : (
-            <TrendingDown sx={{ fontSize: 16, color: 'error.main' }} />
-          )}
-          <Typography
-            variant="body2"
-            sx={{
-              color: isPositive ? 'success.main' : 'error.main',
-              fontWeight: 600,
-            }}
-          >
-            {isPositive ? '+' : ''}{coin.priceChangePercentage24h.toFixed(2)}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            ({isPositive ? '+' : ''}{formatCurrency(coin.priceChange24h)})
-          </Typography>
-        </Box>
-
-        {/* Market Info */}
-        <Box display="flex" flexDirection="column" gap={1}>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" color="text.secondary">
-              Market Cap
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              {formatMarketCap(coin.marketCap)}
-            </Typography>
-          </Box>
-
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" color="text.secondary">
-              Rank
-            </Typography>
-            <Chip
-              label={`#${coin.marketCapRank}`}
-              size="small"
-              variant="outlined"
-              sx={{ height: 20, fontSize: '0.75rem' }}
-            />
-          </Box>
-
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" color="text.secondary">
-              24h Volume
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              {formatMarketCap(coin.totalVolume)}
-            </Typography>
-          </Box>
-        </Box>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
     </Link>
   );
 }

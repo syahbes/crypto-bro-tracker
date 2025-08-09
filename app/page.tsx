@@ -35,7 +35,7 @@ export default async function HomePage() {
           sx={{ 
             fontWeight: 700,
             mb: 1,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #34E834 0%, #00D4FF 100%)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',

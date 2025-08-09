@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { Box, Typography, Alert, CircularProgress, Paper, FormControl, InputLabel, Select, MenuItem, ToggleButtonGroup, ToggleButton, Pagination, Fab, useTheme, alpha } from '@mui/material';
-import { TrendingUp, TrendingDown, Refresh } from '@mui/icons-material';
+import { Box, Typography, Alert, CircularProgress, Paper, FormControl, InputLabel, Select, MenuItem, ToggleButtonGroup, ToggleButton, Pagination, Fab, useTheme, alpha, IconButton } from '@mui/material';
+import { TrendingUp, TrendingDown, Refresh, ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { CoinGeckoService } from '@/lib/api/coingecko';
 import { Coin } from '@/types/crypto';
@@ -16,7 +16,9 @@ interface CoinListClientProps {
   initialError: string | null;
 }
 
-type SortOption =
+type SortField = 'market_cap' | 'volume' | 'price' | 'percent_change_24h';
+type SortOrder = 'asc' | 'desc';
+type SortOption = 
   | 'market_cap_desc'
   | 'market_cap_asc'
   | 'volume_desc'
@@ -29,14 +31,11 @@ type ViewMode = 'grid' | 'list';
 
 const COINS_PER_PAGE = 20;
 
-const sortOptions = [
-  { value: 'market_cap_desc', label: 'Market Cap ↓' },
-  { value: 'market_cap_asc', label: 'Market Cap ↑' },
-  { value: 'volume_desc', label: 'Volume ↓' },
-  { value: 'price_desc', label: 'Price ↓' },
-  { value: 'price_asc', label: 'Price ↑' },
-  { value: 'percent_change_24h_desc', label: '24h Change ↓' },
-  { value: 'percent_change_24h_asc', label: '24h Change ↑' },
+const sortFields = [
+  { value: 'market_cap', label: 'Market Cap' },
+  { value: 'volume', label: 'Volume' },
+  { value: 'price', label: 'Price' },
+  { value: 'percent_change_24h', label: '24h Change' },
 ];
 
 export default function CoinListClient({ initialCoins, initialError }: CoinListClientProps) {
@@ -44,9 +43,15 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
   const dispatch = useAppDispatch();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('market_cap_desc');
+  const [sortField, setSortField] = useState<SortField>('market_cap');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [priceFilter, setPriceFilter] = useState<'all' | 'gainers' | 'losers'>('all');
+
+  // Convert separate field and order to combined sortBy for API
+  const sortBy: SortOption = useMemo(() => {
+    return `${sortField}_${sortOrder}` as SortOption;
+  }, [sortField, sortOrder]);
 
   const {
     data: coins = initialCoins,
@@ -74,6 +79,10 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
     setCurrentPage(1);
   }, []);
 
+  const handleSortOrderToggle = () => {
+    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+  };
+
   const filteredAndSortedCoins = useMemo(() => {
     let filtered = [...coins];
 
@@ -91,28 +100,36 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
     }
 
     filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'market_cap_desc': return b.marketCap - a.marketCap;
-        case 'market_cap_asc': return a.marketCap - b.marketCap;
-        case 'volume_desc': return b.totalVolume - a.totalVolume;
-        case 'price_desc': return b.currentPrice - a.currentPrice;
-        case 'price_asc': return a.currentPrice - b.currentPrice;
-        case 'percent_change_24h_desc': return b.priceChangePercentage24h - a.priceChangePercentage24h;
-        case 'percent_change_24h_asc': return a.priceChangePercentage24h - b.priceChangePercentage24h;
-        default: return 0;
+      let comparison = 0;
+      
+      switch (sortField) {
+        case 'market_cap': 
+          comparison = b.marketCap - a.marketCap;
+          break;
+        case 'volume': 
+          comparison = b.totalVolume - a.totalVolume;
+          break;
+        case 'price': 
+          comparison = b.currentPrice - a.currentPrice;
+          break;
+        case 'percent_change_24h': 
+          comparison = b.priceChangePercentage24h - a.priceChangePercentage24h;
+          break;
+        default: 
+          comparison = 0;
       }
+      
+      return sortOrder === 'asc' ? -comparison : comparison;
     });
 
     return filtered;
-  }, [coins, searchQuery, sortBy, priceFilter]);
+  }, [coins, searchQuery, sortField, sortOrder, priceFilter]);
 
   const totalPages = Math.ceil(filteredAndSortedCoins.length / COINS_PER_PAGE);
   const paginatedCoins = filteredAndSortedCoins.slice(
     (currentPage - 1) * COINS_PER_PAGE,
     currentPage * COINS_PER_PAGE
   );
-
-
 
   const handleCoinClick = (coin: Coin) => {
     console.log('Coin clicked:', coin);
@@ -139,21 +156,40 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
             <SearchBar onSearch={handleSearch} placeholder="Search coins..." />
           </Box>
 
-          <Box sx={{ flex: '1 1 200px' }}>
+          {/* Sort Field and Order Controls */}
+          <Box sx={{ flex: '1 1 200px', display: 'flex', alignItems: 'center', gap: 1 }}>
             <FormControl fullWidth size="medium">
               <InputLabel>Sort By</InputLabel>
               <Select
-                value={sortBy}
+                value={sortField}
                 label="Sort By"
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                onChange={(e) => setSortField(e.target.value as SortField)}
               >
-                {sortOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {sortFields.map((field) => (
+                  <MenuItem key={field.value} value={field.value}>
+                    {field.label}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
+            
+            <IconButton
+              onClick={handleSortOrderToggle}
+              size="medium"
+              sx={{
+                border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+                borderRadius: 1,
+                minWidth: 48,
+                height: 56, // Match the Select height
+                backgroundColor: alpha(theme.palette.primary.main, 0.04),
+                '&:hover': {
+                  backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                },
+              }}
+              title={`Sort ${sortOrder === 'asc' ? 'Ascending' : 'Descending'}`}
+            >
+              {sortOrder === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+            </IconButton>
           </Box>
 
           <Box sx={{ flex: '1 1 200px' }}>

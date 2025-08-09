@@ -20,6 +20,8 @@ import {
   Menu as MenuIcon,
   AccountBalance,
   Home,
+  TrendingUp,
+  Equalizer,
 } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from '@/lib/store';
@@ -66,8 +68,8 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
   ];
 
   return (
-    <AppBar 
-      position="sticky" 
+    <AppBar
+      position="sticky"
       elevation={1}
       sx={{
         backgroundColor: theme.palette.background.paper,
@@ -75,7 +77,7 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar 
+        <Toolbar
           disableGutters
           sx={{
             minHeight: { xs: 56, sm: 64 },
@@ -89,7 +91,7 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
               color="inherit"
               aria-label="menu"
               onClick={onMenuToggle}
-              sx={{ 
+              sx={{
                 mr: 2,
                 color: theme.palette.text.primary,
               }}
@@ -100,6 +102,8 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
 
           {/* Logo/Brand */}
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+            {/* icon of graph */}
+            <Equalizer sx={{ color: theme.palette.text.primary }} />
             <Typography
               variant={isMobile ? "h6" : "h5"}
               component="div"
@@ -116,7 +120,8 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
                 },
               }}
             >
-              SY Market
+              <span style={{ color: '#34E834' }}>SY </span>
+              Market
             </Typography>
           </Box>
 
@@ -147,7 +152,7 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
                     transition: 'all 0.2s ease',
                     '&:hover': {
                       color: alpha(theme.palette.primary.main, 0.8),
-                      bgcolor: pathname === item.path 
+                      bgcolor: pathname === item.path
                         ? theme.palette.background.paper
                         : theme.palette.background.default,
                     },
@@ -161,9 +166,9 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
 
           {/* Desktop Portfolio Summary */}
           {!isMobile && portfolioItems.length > 0 && (
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
               gap: 2,
               mr: 2,
               p: 1.5,
@@ -171,18 +176,19 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
               bgcolor: alpha(theme.palette.primary.main, 0.08),
               border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
             }}>
-              <Box sx={{ 
+              <Box sx={{
                 display: 'flex',
                 gap: 1,
                 flexDirection: 'row',
                 alignItems: 'center',
-                textAlign: 'right' }}>
+                textAlign: 'right'
+              }}>
                 <Typography variant="caption" color="text.secondary">
                   Portfolio Value
                 </Typography>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+                <Typography
+                  variant="body2"
+                  sx={{
                     fontWeight: 600,
                     color: 'text.primary',
                   }}
@@ -190,9 +196,9 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
                   {formatCurrency(totalValue)}
                 </Typography>
               </Box>
-              <Typography 
-                variant="body2" 
-                sx={{ 
+              <Typography
+                variant="body2"
+                sx={{
                   color: totalGainLoss >= 0 ? 'success.main' : 'error.main',
                   fontWeight: 600,
                   fontSize: '0.875rem',

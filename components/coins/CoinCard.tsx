@@ -59,25 +59,32 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
   };
 
   return (
-    <Card 
-      sx={{ 
+    <Card
+      sx={(theme) => ({
+        width: 280, // fixed width for both desktop & mobile
+        flexShrink: 0, // prevents shrinking in flex layouts
         height: '100%',
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.2s ease-in-out',
-        '&:hover': onClick ? {
-          transform: 'translateY(-2px)',
-          boxShadow: 4,
-        } : {},
         position: 'relative',
-      }}
+        '&:hover': onClick
+          ? {
+            boxShadow: `0 4px 20px ${theme.palette.mode === 'dark'
+                ? 'rgba(226, 8, 255, 0.57)'
+                : 'rgba(0, 0, 0, 0.2)'
+              }`,
+          }
+          : {},
+      })}
       onClick={handleCardClick}
     >
+
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
         {/* Header with Avatar and Add Button */}
         <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
           <Box display="flex" alignItems="center" gap={1.5}>
-            <Avatar 
-              src={coin.image} 
+            <Avatar
+              src={coin.image}
               alt={coin.name}
               sx={{ width: 40, height: 40 }}
             />
@@ -90,13 +97,13 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
               </Typography>
             </Box>
           </Box>
-          
+
           {onAddToPortfolio && (
-            <IconButton 
+            <IconButton
               onClick={handleAddClick}
               size="small"
               color="primary"
-              sx={{ 
+              sx={{
                 bgcolor: 'primary.main',
                 color: 'white',
                 '&:hover': {
@@ -123,9 +130,9 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
           ) : (
             <TrendingDown sx={{ fontSize: 16, color: 'error.main' }} />
           )}
-          <Typography 
-            variant="body2" 
-            sx={{ 
+          <Typography
+            variant="body2"
+            sx={{
               color: isPositive ? 'success.main' : 'error.main',
               fontWeight: 600,
             }}
@@ -147,19 +154,19 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
               {formatMarketCap(coin.marketCap)}
             </Typography>
           </Box>
-          
+
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
               Rank
             </Typography>
-            <Chip 
+            <Chip
               label={`#${coin.marketCapRank}`}
               size="small"
               variant="outlined"
               sx={{ height: 20, fontSize: '0.75rem' }}
             />
           </Box>
-          
+
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
               24h Volume
@@ -189,13 +196,13 @@ function CoinCardSkeleton() {
           </Box>
           <Skeleton variant="circular" width={32} height={32} />
         </Box>
-        
+
         <Skeleton variant="text" width={120} height={32} sx={{ mb: 1 }} />
-        
+
         <Box display="flex" alignItems="center" gap={0.5} mb={2}>
           <Skeleton variant="text" width={80} height={20} />
         </Box>
-        
+
         <Box display="flex" flexDirection="column" gap={1}>
           {[...Array(3)].map((_, i) => (
             <Box key={i} display="flex" justifyContent="space-between" alignItems="center">

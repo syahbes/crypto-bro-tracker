@@ -1,4 +1,5 @@
 'use client';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import StoreProvider from '@/app/StoreProvider';
@@ -14,10 +15,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }));
 
   return (
-    <StoreProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    </StoreProvider>
+    <AppRouterCacheProvider>
+      <StoreProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </StoreProvider>
+    </AppRouterCacheProvider>
   );
 }

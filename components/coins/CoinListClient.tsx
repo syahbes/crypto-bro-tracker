@@ -67,7 +67,6 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('market_cap_desc');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [priceFilter, setPriceFilter] = useState<'all' | 'gainers' | 'losers'>('all');
 
@@ -200,23 +199,6 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-
-          <Box sx={{ flex: '1 1 150px' }}>
-            <ToggleButtonGroup
-              value={viewMode}
-              exclusive
-              onChange={(_, value) => value && setViewMode(value)}
-              size="medium"
-              fullWidth
-            >
-              <ToggleButton value="grid">
-                <ViewModule />
-              </ToggleButton>
-              <ToggleButton value="list">
-                <ViewList />
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
         </Box>
 
         <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(theme.palette.divider, 0.08)}` }}>
@@ -268,18 +250,18 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
           <Box
             sx={{
               display: 'flex',
-              flexWrap: viewMode === 'grid' ? 'wrap' : 'nowrap',
-              flexDirection: viewMode === 'list' ? 'column' : 'row',
+              flexWrap: 'wrap',
+              flexDirection: 'row',
               gap: 3,
-              justifyContent: viewMode === 'grid' ? 'center' : 'flex-start',
+              justifyContent: 'center'
             }}
           >
             {paginatedCoins.map((coin) => (
               <Box
                 key={coin.id}
                 sx={{
-                  flex: viewMode === 'grid' ? '0 0 auto' : '1 1 100%',
-                  width: viewMode === 'grid' ? 280 : '100%',
+                  flex: '0 0 auto',
+                  width: 280
                 }}
               >
                 <CoinCard

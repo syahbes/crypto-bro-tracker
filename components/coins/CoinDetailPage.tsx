@@ -37,6 +37,7 @@ import { useRouter } from 'next/navigation';
 import { CoinGeckoService } from '@/lib/api/coingecko';
 import { Coin } from '@/types/crypto';
 import { useAppDispatch, useAppSelector, addToPortfolio, type PortfolioItem } from '@/lib/store';
+import CoinDetailSkeleton from './coinDetail/CoinDetailSkeleton';
 
 interface CoinDetailPageProps {
   coinId: string;
@@ -57,9 +58,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   const portfolioItems = useAppSelector((state) => state.portfolio.items);
   const existingPortfolioItem = portfolioItems.find(item => item.id === coinId);
 
-  const { 
-    data: coin, 
-    isLoading, 
+  const {
+    data: coin,
+    isLoading,
     error,
     refetch,
   } = useQuery({
@@ -123,15 +124,13 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
     }
   };
 
-  if (isLoading) {
-    return <CoinDetailSkeleton />;
-  }
+  if (isLoading) return <CoinDetailSkeleton />;
 
   if (error || !coin) {
     return (
       <Box sx={{ p: { xs: 2, sm: 3 } }}>
-        <Alert 
-          severity="error" 
+        <Alert
+          severity="error"
           action={
             <Button color="inherit" size="small" onClick={() => refetch()}>
               Retry
@@ -148,9 +147,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   const priceChangeColor = isPositive ? 'success.main' : 'error.main';
 
   return (
-    <Box sx={{ 
-      maxWidth: 1200, 
-      mx: 'auto', 
+    <Box sx={{
+      maxWidth: 1200,
+      mx: 'auto',
       p: { xs: 2, sm: 3 },
       pb: { xs: 4, sm: 3 } // Extra padding bottom on mobile
     }}>
@@ -161,9 +160,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
         onClose={() => setShowSuccessMessage(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert 
-          onClose={() => setShowSuccessMessage(false)} 
-          severity="success" 
+        <Alert
+          onClose={() => setShowSuccessMessage(false)}
+          severity="success"
           variant="filled"
           icon={<CheckCircle />}
           sx={{ width: '100%' }}
@@ -175,19 +174,19 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
       {/* Header */}
       <Box sx={{ mb: 3 }}>
         <Box display="flex" alignItems="center" gap={2} mb={2}>
-          <IconButton 
-            onClick={() => router.back()} 
-            sx={{ 
+          <IconButton
+            onClick={() => router.back()}
+            sx={{
               bgcolor: alpha(theme.palette.background.paper, 0.8),
               backdropFilter: 'blur(8px)',
             }}
           >
             <ArrowBack />
           </IconButton>
-          <Typography 
-            variant={isSmall ? "h5" : "h4"} 
-            component="h1" 
-            sx={{ 
+          <Typography
+            variant={isSmall ? "h5" : "h4"}
+            component="h1"
+            sx={{
               fontWeight: 700,
               fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
             }}
@@ -198,13 +197,13 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
       </Box>
 
       {/* Main Content */}
-      <Box sx={{ 
+      <Box sx={{
         display: 'flex',
         flexDirection: { xs: 'column', lg: 'row' },
         gap: 3,
       }}>
         {/* Left Column - Main Info */}
-        <Box sx={{ 
+        <Box sx={{
           flex: 1,
           minWidth: 0, // Prevents flex item from overflowing
         }}>
@@ -225,18 +224,18 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                 <Avatar
                   src={coin.image}
                   alt={coin.name}
-                  sx={{ 
-                    width: { xs: 48, sm: 64 }, 
+                  sx={{
+                    width: { xs: 48, sm: 64 },
                     height: { xs: 48, sm: 64 },
                     flexShrink: 0
                   }}
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                  <Typography 
-                    variant={isSmall ? "h4" : "h3"} 
-                    component="h2" 
-                    sx={{ 
-                      fontWeight: 700, 
+                  <Typography
+                    variant={isSmall ? "h4" : "h3"}
+                    component="h2"
+                    sx={{
+                      fontWeight: 700,
                       mb: 0.5,
                       fontSize: { xs: '1.75rem', sm: '2.125rem', md: '3rem' },
                       wordBreak: 'break-word'
@@ -245,8 +244,8 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     {coin.name}
                   </Typography>
                   <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
-                    <Typography 
-                      variant={isSmall ? "body1" : "h6"} 
+                    <Typography
+                      variant={isSmall ? "body1" : "h6"}
                       color="text.secondary"
                       sx={{ textTransform: 'uppercase' }}
                     >
@@ -279,7 +278,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                 >
                   {isFavorite ? <Bookmark /> : <BookmarkBorder />}
                 </IconButton>
-                <IconButton 
+                <IconButton
                   onClick={handleShare}
                   size={isSmall ? "small" : "medium"}
                 >
@@ -290,11 +289,11 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
 
             {/* Price Section */}
             <Box mb={3}>
-              <Typography 
-                variant={isSmall ? "h3" : "h2"} 
-                component="p" 
-                sx={{ 
-                  fontWeight: 800, 
+              <Typography
+                variant={isSmall ? "h3" : "h2"}
+                component="p"
+                sx={{
+                  fontWeight: 800,
                   mb: 1,
                   fontSize: { xs: '2rem', sm: '2.5rem', md: '3.75rem' },
                   wordBreak: 'break-word'
@@ -302,11 +301,11 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
               >
                 {formatCurrency(coin.currentPrice)}
               </Typography>
-              
-              <Box 
-                display="flex" 
-                alignItems="center" 
-                gap={1} 
+
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={1}
                 mb={1}
                 flexWrap="wrap"
               >
@@ -321,14 +320,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                 >
                   {formatPercentage(coin.priceChangePercentage24h)}
                 </Typography>
-                <Typography 
-                  variant={isSmall ? "body2" : "h6"} 
+                <Typography
+                  variant={isSmall ? "body2" : "h6"}
                   color="text.secondary"
                 >
                   ({isPositive ? '+' : ''}{formatCurrency(coin.priceChange24h)})
                 </Typography>
               </Box>
-              
+
               <Typography variant="body2" color="text.secondary">
                 Last updated: {new Date(coin.lastUpdated).toLocaleString()}
               </Typography>
@@ -339,24 +338,24 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
               <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                 24h Range
               </Typography>
-              <Box 
-                display="flex" 
-                alignItems="center" 
-                gap={2} 
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
                 mb={1}
                 flexDirection={{ xs: 'column', sm: 'row' }}
               >
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+                <Typography
+                  variant="body2"
+                  sx={{
                     minWidth: { sm: 80 },
                     alignSelf: { xs: 'flex-start', sm: 'center' }
                   }}
                 >
                   {formatCurrency(coin.low24h)}
                 </Typography>
-                <Box sx={{ 
-                  flex: 1, 
+                <Box sx={{
+                  flex: 1,
                   position: 'relative',
                   width: { xs: '100%', sm: 'auto' }
                 }}>
@@ -388,10 +387,10 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     }}
                   />
                 </Box>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    minWidth: { sm: 80 }, 
+                <Typography
+                  variant="body2"
+                  sx={{
+                    minWidth: { sm: 80 },
                     textAlign: { xs: 'left', sm: 'right' },
                     alignSelf: { xs: 'flex-end', sm: 'center' }
                   }}
@@ -413,18 +412,18 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
               backdropFilter: 'blur(8px)',
             }}
           >
-            <Typography 
-              variant="h6" 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 600, 
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
                 mb: 3,
                 fontSize: { xs: '1.125rem', sm: '1.25rem' }
               }}
             >
               Market Statistics
             </Typography>
-            
+
             <Box sx={{
               display: 'grid',
               gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
@@ -434,9 +433,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   Market Capitalization
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 600,
                     fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
@@ -444,14 +443,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                   {formatMarketCap(coin.marketCap)}
                 </Typography>
               </Box>
-              
+
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   24h Trading Volume
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 600,
                     fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
@@ -459,14 +458,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                   {formatMarketCap(coin.totalVolume)}
                 </Typography>
               </Box>
-              
+
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   Market Rank
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 600,
                     fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
@@ -474,14 +473,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                   #{coin.marketCapRank}
                 </Typography>
               </Box>
-              
+
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   Volume/Market Cap
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 600,
                     fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
@@ -494,7 +493,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
         </Box>
 
         {/* Right Column - Portfolio Actions */}
-        <Box sx={{ 
+        <Box sx={{
           width: { xs: '100%', lg: 400 },
           flexShrink: 0,
         }}>
@@ -510,11 +509,11 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
             }}
           >
             <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-              <Typography 
-                variant="h6" 
-                gutterBottom 
-                sx={{ 
-                  fontWeight: 600, 
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontWeight: 600,
                   mb: 3,
                   fontSize: { xs: '1.125rem', sm: '1.25rem' }
                 }}
@@ -527,7 +526,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                   You already own {existingPortfolioItem.amount?.toFixed(6)} {coin.symbol.toUpperCase()} in your portfolio
                 </Alert>
               )}
-              
+
               <Box sx={{ mb: 3 }}>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   Amount
@@ -551,9 +550,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                       backgroundColor: alpha(theme.palette.background.paper, 0.5),
                     }}
                   >
-                    <Typography 
-                      variant="h6" 
-                      sx={{ 
+                    <Typography
+                      variant="h6"
+                      sx={{
                         fontWeight: 600,
                         fontSize: { xs: '1rem', sm: '1.25rem' }
                       }}
@@ -574,18 +573,18 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
               </Box>
 
               {portfolioAmount > 0 && (
-                <Box sx={{ 
-                  mb: 3, 
-                  p: 2, 
-                  bgcolor: alpha(theme.palette.primary.main, 0.08), 
-                  borderRadius: 2 
+                <Box sx={{
+                  mb: 3,
+                  p: 2,
+                  bgcolor: alpha(theme.palette.primary.main, 0.08),
+                  borderRadius: 2
                 }}>
                   <Typography variant="body2" color="text.secondary" gutterBottom>
                     Total Value
                   </Typography>
-                  <Typography 
-                    variant="h6" 
-                    sx={{ 
+                  <Typography
+                    variant="h6"
+                    sx={{
                       fontWeight: 600,
                       fontSize: { xs: '1.125rem', sm: '1.25rem' }
                     }}
@@ -618,11 +617,11 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
 
               <Divider sx={{ my: 3 }} />
 
-              <Typography 
-                variant="h6" 
-                gutterBottom 
-                sx={{ 
-                  fontWeight: 600, 
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontWeight: 600,
                   mb: 2,
                   fontSize: { xs: '1.125rem', sm: '1.25rem' }
                 }}
@@ -639,7 +638,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     {formatCurrency(coin.high24h * 1.2)} {/* Mock ATH */}
                   </Typography>
                 </Box>
-                
+
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="body2" color="text.secondary">
                     All-Time Low
@@ -648,14 +647,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
                     {formatCurrency(coin.low24h * 0.1)} {/* Mock ATL */}
                   </Typography>
                 </Box>
-                
+
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="body2" color="text.secondary">
                     Circulating Supply
                   </Typography>
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
+                  <Typography
+                    variant="body2"
+                    sx={{
                       fontWeight: 500,
                       wordBreak: 'break-word',
                       textAlign: 'right'
@@ -673,85 +672,3 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   );
 }
 
-// Loading skeleton component
-function CoinDetailSkeleton() {
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-
-  return (
-    <Box sx={{ 
-      maxWidth: 1200, 
-      mx: 'auto', 
-      p: { xs: 2, sm: 3 } 
-    }}>
-      <Box sx={{ mb: 3 }}>
-        <Box display="flex" alignItems="center" gap={2} mb={2}>
-          <Skeleton variant="circular" width={40} height={40} />
-          <Skeleton 
-            variant="text" 
-            width={isSmall ? 250 : 300} 
-            height={isSmall ? 32 : 40} 
-          />
-        </Box>
-      </Box>
-
-      <Box sx={{ 
-        display: 'flex',
-        flexDirection: { xs: 'column', lg: 'row' },
-        gap: 3,
-      }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Paper sx={{ p: { xs: 2, sm: 3 }, mb: 3, borderRadius: 3 }}>
-            <Box display="flex" alignItems="center" gap={2} mb={3}>
-              <Skeleton 
-                variant="circular" 
-                width={isSmall ? 48 : 64} 
-                height={isSmall ? 48 : 64} 
-              />
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Skeleton variant="text" width="70%" height={isSmall ? 32 : 40} />
-                <Skeleton variant="text" width="40%" height={24} />
-              </Box>
-            </Box>
-            <Skeleton variant="text" width="60%" height={isSmall ? 48 : 60} />
-            <Skeleton variant="text" width="50%" height={32} />
-            <Skeleton variant="rectangular" width="100%" height={40} sx={{ mt: 2 }} />
-          </Paper>
-          
-          <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
-            <Skeleton variant="text" width={200} height={32} sx={{ mb: 3 }} />
-            <Box sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-              gap: 3,
-            }}>
-              {[...Array(4)].map((_, i) => (
-                <Box key={i}>
-                  <Skeleton variant="text" width="80%" height={20} />
-                  <Skeleton variant="text" width="60%" height={32} />
-                </Box>
-              ))}
-            </Box>
-          </Paper>
-        </Box>
-
-        <Box sx={{ 
-          width: { xs: '100%', lg: 400 },
-          flexShrink: 0,
-        }}>
-          <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
-            <Skeleton variant="text" width={150} height={32} sx={{ mb: 3 }} />
-            <Skeleton variant="rectangular" width="100%" height={60} sx={{ mb: 2 }} />
-            <Skeleton variant="rectangular" width="100%" height={48} sx={{ mb: 3 }} />
-            {[...Array(3)].map((_, i) => (
-              <Box key={i} display="flex" justifyContent="space-between" sx={{ mb: 2 }}>
-                <Skeleton variant="text" width={100} height={20} />
-                <Skeleton variant="text" width={80} height={20} />
-              </Box>
-            ))}
-          </Paper>
-        </Box>
-      </Box>
-    </Box>
-  );
-}

@@ -17,11 +17,15 @@ export default function HomePage() {
           sx={{
             mb: 2,
             fontWeight: 700,
-            color: theme.palette.text.primary,
             textAlign: 'center',
+            background: 'linear-gradient(90deg,rgb(52, 255, 103), #ee0979)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent',
           }}
         >
-          Welcome to Your App
+          SY Market
         </Typography>
         <Typography
           variant="h6"
@@ -32,7 +36,7 @@ export default function HomePage() {
             mx: 'auto',
           }}
         >
-          A responsive header with theme toggle functionality built with MUI and Next.js
+          Track real-time cryptocurrency prices, build your portfolio, and monitor your investments all in one place
         </Typography>
       </Box>
 

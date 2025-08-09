@@ -72,7 +72,7 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
                 fontFamily: 'var(--font-geist-sans)',
               }}
             >
-              Your App
+              SY Market
             </Typography>
           </Box>
 

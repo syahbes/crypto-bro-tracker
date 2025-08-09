@@ -2,31 +2,8 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import {
-  Box,
-  Typography,
-  Alert,
-  CircularProgress,
-  Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  ToggleButtonGroup,
-  ToggleButton,
-  Pagination,
-  Fab,
-  useTheme,
-  alpha,
-} from '@mui/material';
-import {
-  ViewList,
-  ViewModule,
-  TrendingUp,
-  TrendingDown,
-  FilterList,
-  Refresh,
-} from '@mui/icons-material';
+import { Box, Typography, Alert, CircularProgress, Paper, FormControl, InputLabel, Select, MenuItem, ToggleButtonGroup, ToggleButton, Pagination, Fab, useTheme, alpha } from '@mui/material';
+import { TrendingUp, TrendingDown, Refresh } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { CoinGeckoService } from '@/lib/api/coingecko';
 import { Coin } from '@/types/crypto';
@@ -71,9 +48,9 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
   const [currentPage, setCurrentPage] = useState(1);
   const [priceFilter, setPriceFilter] = useState<'all' | 'gainers' | 'losers'>('all');
 
-  const { 
-    data: coins = initialCoins, 
-    isLoading, 
+  const {
+    data: coins = initialCoins,
+    isLoading,
     error: queryError,
     refetch,
     isFetching,
@@ -135,9 +112,7 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
     currentPage * COINS_PER_PAGE
   );
 
-  const handleAddToPortfolio = (coin: Coin) => {
-    console.log('Add to portfolio:', coin);
-  };
+
 
   const handleCoinClick = (coin: Coin) => {
     console.log('Coin clicked:', coin);
@@ -267,8 +242,6 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
               >
                 <CoinCard
                   coin={coin}
-                  onAddToPortfolio={handleAddToPortfolio}
-                  onClick={handleCoinClick}
                   loading={isLoading && !coins.length}
                 />
               </Box>

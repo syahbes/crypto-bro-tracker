@@ -2,28 +2,17 @@
 'use client';
 
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Avatar,
-  Chip,
-  IconButton,
-  Skeleton,
-} from '@mui/material';
-import { TrendingUp, TrendingDown, Add } from '@mui/icons-material';
+import { Card, CardContent, Typography, Box, Avatar, Chip, Skeleton } from '@mui/material';
+import { TrendingUp, TrendingDown } from '@mui/icons-material';
 import { Coin } from '@/types/crypto';
 import Link from 'next/link';
 
 interface CoinCardProps {
   coin: Coin;
-  onAddToPortfolio?: (coin: Coin) => void;
-  onClick?: (coin: Coin) => void;
   loading?: boolean;
 }
 
-export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = false }: CoinCardProps) {
+export default function CoinCard({ coin, loading = false }: CoinCardProps) {
 
 
   if (loading) {
@@ -49,41 +38,27 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
   };
 
 
-
-  const handleAddClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onAddToPortfolio) {
-      onAddToPortfolio(coin);
-    }
-  };
-
   return (
     <Link href={`/coins/${coin.id}`}>
-
-
       <Card
         sx={(theme) => ({
-          width: 280, // fixed width for both desktop & mobile
-          flexShrink: 0, // prevents shrinking in flex layouts
+          width: 280,
+          flexShrink: 0,
           height: '100%',
-          cursor: onClick ? 'pointer' : 'default',
+          cursor: 'pointer',
           transition: 'all 0.2s ease-in-out',
           position: 'relative',
-          '&:hover': onClick
-            ? {
-              boxShadow: `0 4px 20px ${theme.palette.mode === 'dark'
-                ? 'rgba(226, 8, 255, 0.57)'
-                : 'rgba(0, 0, 0, 0.2)'
-                }`,
-            }
-            : {},
+          '&:hover': {
+            boxShadow: `0 2px 10px ${theme.palette.mode === 'dark'
+              ? '#6878E2'
+              : '#CCCCCC'
+              }`,
+          },
         })}
-
       >
-
         <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-          {/* Header with Avatar and Add Button */}
-          <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+          {/* Header with Avatar */}
+          <Box display="flex" alignItems="center" justifyContent="flex-start" mb={2}>
             <Box display="flex" alignItems="center" gap={1.5}>
               <Avatar
                 src={coin.image}
@@ -99,25 +74,6 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
                 </Typography>
               </Box>
             </Box>
-
-            {onAddToPortfolio && (
-              <IconButton
-                onClick={handleAddClick}
-                size="small"
-                color="primary"
-                sx={{
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  width: 32,
-                  height: 32,
-                }}
-              >
-                <Add fontSize="small" />
-              </IconButton>
-            )}
           </Box>
 
           {/* Price */}
@@ -135,7 +91,7 @@ export default function CoinCard({ coin, onAddToPortfolio, onClick, loading = fa
             <Typography
               variant="body2"
               sx={{
-                color: isPositive ? 'success.main' : 'error.main',
+                color: isPositive ? '#6878E2' : 'error.main',
                 fontWeight: 600,
               }}
             >

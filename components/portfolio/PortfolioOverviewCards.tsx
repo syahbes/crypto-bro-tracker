@@ -1,7 +1,6 @@
-// components/portfolio/PortfolioOverviewCards.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Grid,
   Card,
@@ -9,14 +8,14 @@ import {
   Typography,
   useTheme,
   alpha,
-} from '@mui/material';
+} from "@mui/material";
 import {
   TrendingUp,
   TrendingDown,
   AccountBalance,
   ShowChart,
   PieChart,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 interface PortfolioOverviewCardsProps {
   totalValue: number;
@@ -34,30 +33,30 @@ export default function PortfolioOverviewCards({
   const theme = useTheme();
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
   };
 
   const formatPercentage = (value: number) => {
-    return `${value >= 0 ? '+' : ''}${value?.toFixed(2)}%`;
+    return `${value >= 0 ? "+" : ""}${value?.toFixed(2)}%`;
   };
 
   const isPositiveTotal = totalGainLoss >= 0;
-  const totalChangeColor = isPositiveTotal ? 'success.main' : 'error.main';
+  const totalChangeColor = isPositiveTotal ? "success.main" : "error.main";
 
   const cardStyle = {
     borderRadius: 3,
     border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
     backgroundColor: alpha(theme.palette.background.paper, 0.6),
-    backdropFilter: 'blur(8px)',
+    backdropFilter: "blur(8px)",
   };
 
   const cardContentStyle = {
-    textAlign: 'center' as const,
+    textAlign: "center" as const,
     minHeight: 180,
     minWidth: 180,
   };
@@ -68,7 +67,9 @@ export default function PortfolioOverviewCards({
       <Grid sx={{ mb: 4 }}>
         <Card elevation={0} sx={cardStyle}>
           <CardContent sx={cardContentStyle}>
-            <AccountBalance sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+            <AccountBalance
+              sx={{ fontSize: 40, color: "primary.main", mb: 1 }}
+            />
             <Typography variant="body2" color="text.secondary" gutterBottom>
               Total Portfolio Value
             </Typography>
@@ -87,22 +88,22 @@ export default function PortfolioOverviewCards({
             <Typography variant="body2" color="text.secondary" gutterBottom>
               Total Gain/Loss
             </Typography>
-            <Typography 
-              variant="h4" 
-              sx={{ 
+            <Typography
+              variant="h4"
+              sx={{
                 fontWeight: 700,
                 color: totalChangeColor,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 gap: 1,
               }}
             >
               {isPositiveTotal ? <TrendingUp /> : <TrendingDown />}
               {formatCurrency(Math.abs(totalGainLoss))}
             </Typography>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               sx={{ color: totalChangeColor, fontWeight: 600 }}
             >
               {formatPercentage(totalGainLossPercentage)}
@@ -115,7 +116,7 @@ export default function PortfolioOverviewCards({
       <Grid sx={{ mb: 4 }}>
         <Card elevation={0} sx={cardStyle}>
           <CardContent sx={cardContentStyle}>
-            <PieChart sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
+            <PieChart sx={{ fontSize: 40, color: "warning.main", mb: 1 }} />
             <Typography variant="body2" color="text.secondary" gutterBottom>
               Total Holdings
             </Typography>
@@ -123,7 +124,7 @@ export default function PortfolioOverviewCards({
               {totalHoldings}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {totalHoldings === 1 ? 'Asset' : 'Assets'}
+              {totalHoldings === 1 ? "Asset" : "Assets"}
             </Typography>
           </CardContent>
         </Card>

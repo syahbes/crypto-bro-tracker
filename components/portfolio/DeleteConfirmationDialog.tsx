@@ -1,7 +1,6 @@
-// components/portfolio/DeleteConfirmationDialog.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,7 +8,7 @@ import {
   DialogActions,
   Typography,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
 interface PortfolioItem {
   id: string;
@@ -36,27 +35,19 @@ export default function DeleteConfirmationDialog({
   onConfirm,
 }: DeleteConfirmationDialogProps) {
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Remove from Portfolio</DialogTitle>
       <DialogContent>
         <Typography>
-          Are you sure you want to remove {item?.name} from your portfolio? This action cannot be undone.
+          Are you sure you want to remove {item?.name} from your portfolio? This
+          action cannot be undone.
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color='inherit'>
+        <Button onClick={onClose} color="inherit">
           Cancel
         </Button>
-        <Button 
-          onClick={onConfirm}
-          variant="contained"
-          color="error"
-        >
+        <Button onClick={onConfirm} variant="contained" color="error">
           Remove
         </Button>
       </DialogActions>

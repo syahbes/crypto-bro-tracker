@@ -1,7 +1,6 @@
-// components/portfolio/PortfolioTableRow.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   TableRow,
   TableCell,
@@ -12,13 +11,8 @@ import {
   useTheme,
   useMediaQuery,
   alpha,
-} from '@mui/material';
-import {
-  TrendingUp,
-  TrendingDown,
-  Delete,
-  Edit,
-} from '@mui/icons-material';
+} from "@mui/material";
+import { TrendingUp, TrendingDown, Delete, Edit } from "@mui/icons-material";
 
 interface PortfolioItem {
   id: string;
@@ -45,20 +39,20 @@ export default function PortfolioTableRow({
   onDelete,
 }: PortfolioTableRowProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
   };
 
   const formatPercentage = (value: number) => {
-    return `${value >= 0 ? '+' : ''}${value?.toFixed(2)}%`;
+    return `${value >= 0 ? "+" : ""}${value?.toFixed(2)}%`;
   };
 
   const calculateItemGainLoss = () => {
@@ -66,8 +60,9 @@ export default function PortfolioTableRow({
     const currentValue = item.amount * currentPrice;
     const purchaseValue = item.amount * item.purchasePrice;
     const gainLoss = currentValue - purchaseValue;
-    const gainLossPercentage = purchaseValue > 0 ? (gainLoss / purchaseValue) * 100 : 0;
-    
+    const gainLossPercentage =
+      purchaseValue > 0 ? (gainLoss / purchaseValue) * 100 : 0;
+
     return {
       gainLoss,
       gainLossPercentage,
@@ -75,17 +70,18 @@ export default function PortfolioTableRow({
     };
   };
 
-  const { gainLoss, gainLossPercentage, currentValue } = calculateItemGainLoss();
+  const { gainLoss, gainLossPercentage, currentValue } =
+    calculateItemGainLoss();
   const isPositive = gainLoss >= 0;
-  const changeColor = isPositive ? 'success.main' : 'error.main';
+  const changeColor = isPositive ? "success.main" : "error.main";
   const currentPrice = item.currentPrice || item.purchasePrice;
 
   return (
-    <TableRow 
+    <TableRow
       hover
-      sx={{ 
-        cursor: 'pointer',
-        '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.04) }
+      sx={{
+        cursor: "pointer",
+        "&:hover": { bgcolor: alpha(theme.palette.primary.main, 0.04) },
       }}
       onClick={() => onRowClick(item.id)}
     >
@@ -160,19 +156,16 @@ export default function PortfolioTableRow({
             <TrendingDown sx={{ fontSize: 16, color: changeColor }} />
           )}
           <Box>
-            <Typography 
-              variant="body2" 
-              sx={{ 
+            <Typography
+              variant="body2"
+              sx={{
                 fontWeight: 600,
                 color: changeColor,
               }}
             >
               {formatCurrency(Math.abs(gainLoss))}
             </Typography>
-            <Typography 
-              variant="caption" 
-              sx={{ color: changeColor }}
-            >
+            <Typography variant="caption" sx={{ color: changeColor }}>
               {formatPercentage(gainLossPercentage)}
             </Typography>
           </Box>
@@ -188,9 +181,9 @@ export default function PortfolioTableRow({
               e.stopPropagation();
               onEdit(item);
             }}
-            sx={{ 
+            sx={{
               bgcolor: alpha(theme.palette.primary.main, 0.1),
-              '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.2) }
+              "&:hover": { bgcolor: alpha(theme.palette.primary.main, 0.2) },
             }}
           >
             <Edit fontSize="small" />
@@ -201,9 +194,9 @@ export default function PortfolioTableRow({
               e.stopPropagation();
               onDelete(item);
             }}
-            sx={{ 
+            sx={{
               bgcolor: alpha(theme.palette.error.main, 0.1),
-              '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.2) }
+              "&:hover": { bgcolor: alpha(theme.palette.error.main, 0.2) },
             }}
           >
             <Delete fontSize="small" />

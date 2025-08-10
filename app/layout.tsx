@@ -1,10 +1,8 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import MainLayout from "@/components/layout/MainLayout";
 import Providers from "@/components/providers/Providers";
-
+import MainLayout from "@/components/layout/MainLayout";
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
@@ -14,7 +12,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: "300"
+  weight: "300",
 });
 
 export const metadata: Metadata = {

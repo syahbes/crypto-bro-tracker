@@ -1,23 +1,23 @@
-// components/layout/Header.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   AppBar,
   Toolbar,
   Container,
   useTheme,
   useMediaQuery,
-} from '@mui/material';
-import { useRouter } from 'next/navigation';
-import { useAppSelector } from '@/lib/store';
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/store";
 
-// Import sub-components
-import Logo from './header/Logo';
-import MobileMenuButton from './header/MobileMenuButton';
-import DesktopNavigation from './header/DesktopNavigation';
-import PortfolioSummary from './header/PortfolioSummary';
-import ThemeToggle from './header/ThemeToggle';
+import {
+  Logo,
+  MobileMenuButton,
+  DesktopNavigation,
+  PortfolioSummary,
+  ThemeToggle,
+} from "@/components/layout/header/index";
 
 interface HeaderProps {
   onThemeToggle: () => void;
@@ -27,19 +27,21 @@ interface HeaderProps {
 export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
   const theme = useTheme();
   const router = useRouter();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   // Portfolio state from Redux
   const portfolioItems = useAppSelector((state) => state.portfolio.items);
   const totalValue = useAppSelector((state) => state.portfolio.totalValue);
-  const totalGainLoss = useAppSelector((state) => state.portfolio.totalGainLoss);
+  const totalGainLoss = useAppSelector(
+    (state) => state.portfolio.totalGainLoss
+  );
 
   const handleNavigation = (path: string) => {
     router.push(path);
   };
 
   const handleLogoClick = () => {
-    handleNavigation('/');
+    handleNavigation("/");
   };
 
   return (

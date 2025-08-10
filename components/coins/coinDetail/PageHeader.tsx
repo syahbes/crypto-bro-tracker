@@ -1,7 +1,7 @@
 // components/coins/coinDetail/PageHeader.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Box,
   Typography,
@@ -9,14 +9,14 @@ import {
   useTheme,
   alpha,
   useMediaQuery,
-} from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
-import { useRouter } from 'next/navigation';
+} from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 export default function PageHeader() {
   const theme = useTheme();
   const router = useRouter();
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box sx={{ mb: 3 }}>
@@ -25,7 +25,7 @@ export default function PageHeader() {
           onClick={() => router.back()}
           sx={{
             bgcolor: alpha(theme.palette.background.paper, 0.8),
-            backdropFilter: 'blur(8px)',
+            backdropFilter: "blur(8px)",
           }}
         >
           <ArrowBack />
@@ -35,7 +35,7 @@ export default function PageHeader() {
           component="h1"
           sx={{
             fontWeight: 700,
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.125rem" },
           }}
         >
           Cryptocurrency Details

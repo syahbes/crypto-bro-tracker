@@ -1,29 +1,34 @@
-// components/coins/coinDetail/CoinDetailPage.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Box, Alert, Button } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { CoinGeckoService } from "@/lib/api/coingecko";
+import { Coin } from "@/types/crypto";
 import {
-  Box,
-  Alert,
-  Button,
-} from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { CoinGeckoService } from '@/lib/api/coingecko';
-import { Coin } from '@/types/crypto';
-import { useAppDispatch, useAppSelector, addToPortfolio, type PortfolioItem } from '@/lib/store';
-import CoinDetailSkeleton from './CoinDetailSkeleton';
-import PageHeader from '@/components/coins/coinDetail/PageHeader';
-import CoinDetailHeader from '@/components/coins/coinDetail/CoinDetailHeader';
-import MarketStatistics from '@/components/coins/coinDetail/MarketStatistics';
-import PortfolioActions from '@/components/coins/coinDetail/PortfolioActions';
-import SuccessSnackbar from '@/components/coins/coinDetail/SuccessSnackbar';
+  useAppDispatch,
+  useAppSelector,
+  addToPortfolio,
+  type PortfolioItem,
+} from "@/lib/store";
+import {
+  CoinDetailSkeleton,
+  PageHeader,
+  CoinDetailHeader,
+  MarketStatistics,
+  PortfolioActions,
+  SuccessSnackbar,
+} from "@/components/coins/coinDetail/index";
 
 interface CoinDetailPageProps {
   coinId: string;
   initialData?: Coin | null;
 }
 
-export default function CoinDetailPage({ coinId, initialData = null }: CoinDetailPageProps) {
+export default function CoinDetailPage({
+  coinId,
+  initialData = null,
+}: CoinDetailPageProps) {
   const dispatch = useAppDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -31,7 +36,9 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
 
   // Get portfolio items to check if this coin is already in portfolio
   const portfolioItems = useAppSelector((state) => state.portfolio.items);
-  const existingPortfolioItem = portfolioItems.find(item => item.id === coinId);
+  const existingPortfolioItem = portfolioItems.find(
+    (item) => item.id === coinId
+  );
 
   const {
     data: coin,
@@ -39,7 +46,7 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
     error,
     refetch,
   } = useQuery({
-    queryKey: ['coin', coinId],
+    queryKey: ["coin", coinId],
     queryFn: () => CoinGeckoService.getCoinById(coinId),
     initialData,
     staleTime: 2 * 60 * 1000, // 2 minutes
@@ -69,12 +76,15 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
     if (navigator.share && coin) {
       navigator.share({
         title: `${coin.name} (${coin.symbol})`,
-        text: `Check out ${coin.name} current price: ${new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: coin.currentPrice < 1 ? 6 : 2,
-          maximumFractionDigits: coin.currentPrice < 1 ? 6 : 2,
-        }).format(coin.currentPrice)}`,
+        text: `Check out ${coin.name} current price: ${new Intl.NumberFormat(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: coin.currentPrice < 1 ? 6 : 2,
+            maximumFractionDigits: coin.currentPrice < 1 ? 6 : 2,
+          }
+        ).format(coin.currentPrice)}`,
         url: window.location.href,
       });
     } else {
@@ -103,12 +113,14 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
   }
 
   return (
-    <Box sx={{
-      maxWidth: 1200,
-      mx: 'auto',
-      p: { xs: 2, sm: 3 },
-      pb: { xs: 4, sm: 3 } // Extra padding bottom on mobile
-    }}>
+    <Box
+      sx={{
+        maxWidth: 1200,
+        mx: "auto",
+        p: { xs: 2, sm: 3 },
+        pb: { xs: 4, sm: 3 }, // Extra padding bottom on mobile
+      }}
+    >
       {/* Success Snackbar */}
       <SuccessSnackbar
         open={showSuccessMessage}
@@ -121,16 +133,20 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
       <PageHeader />
 
       {/* Main Content */}
-      <Box sx={{
-        display: 'flex',
-        flexDirection: { xs: 'column', lg: 'row' },
-        gap: 3,
-      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", lg: "row" },
+          gap: 3,
+        }}
+      >
         {/* Left Column - Main Info */}
-        <Box sx={{
-          flex: 1,
-          minWidth: 0, // Prevents flex item from overflowing
-        }}>
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0, // Prevents flex item from overflowing
+          }}
+        >
           {/* Coin Header */}
           <CoinDetailHeader
             coin={coin}
@@ -145,10 +161,12 @@ export default function CoinDetailPage({ coinId, initialData = null }: CoinDetai
         </Box>
 
         {/* Right Column - Portfolio Actions */}
-        <Box sx={{
-          width: { xs: '100%', lg: 400 },
-          flexShrink: 0,
-        }}>
+        <Box
+          sx={{
+            width: { xs: "100%", lg: 400 },
+            flexShrink: 0,
+          }}
+        >
           <PortfolioActions
             coin={coin}
             existingPortfolioItem={existingPortfolioItem}

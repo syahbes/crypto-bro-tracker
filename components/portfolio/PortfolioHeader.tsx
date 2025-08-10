@@ -1,9 +1,8 @@
-// components/portfolio/PortfolioHeader.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { Box, Typography, IconButton, useTheme, alpha } from '@mui/material';
-import { Refresh } from '@mui/icons-material';
+import React from "react";
+import { Box, Typography, IconButton, useTheme, alpha } from "@mui/material";
+import { Refresh } from "@mui/icons-material";
 
 interface PortfolioHeaderProps {
   onRefresh?: () => void;
@@ -21,22 +20,27 @@ export default function PortfolioHeader({ onRefresh }: PortfolioHeaderProps) {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-      <Typography 
-        variant="h4" 
-        component="h1" 
-        sx={{ 
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      mb={3}
+    >
+      <Typography
+        variant="h4"
+        component="h1"
+        sx={{
           fontWeight: 700,
-          fontSize: { xs: '1.75rem', sm: '2.125rem' }
+          fontSize: { xs: "1.75rem", sm: "2.125rem" },
         }}
       >
         My Portfolio
       </Typography>
-      <IconButton 
+      <IconButton
         onClick={handleRefresh}
-        sx={{ 
+        sx={{
           bgcolor: alpha(theme.palette.background.paper, 0.8),
-          backdropFilter: 'blur(8px)',
+          backdropFilter: "blur(8px)",
         }}
       >
         <Refresh />

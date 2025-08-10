@@ -1,8 +1,7 @@
-// components/layout/header/PortfolioSummary.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { Box, Typography, alpha, useTheme } from '@mui/material';
+import React from "react";
+import { Box, Typography, alpha, useTheme } from "@mui/material";
 
 interface PortfolioSummaryProps {
   totalValue: number;
@@ -10,7 +9,11 @@ interface PortfolioSummaryProps {
   isVisible: boolean;
 }
 
-export default function PortfolioSummary({ totalValue, totalGainLoss, isVisible }: PortfolioSummaryProps) {
+export default function PortfolioSummary({
+  totalValue,
+  totalGainLoss,
+  isVisible,
+}: PortfolioSummaryProps) {
   const theme = useTheme();
 
   const formatCurrency = (value: number) => {
@@ -22,23 +25,27 @@ export default function PortfolioSummary({ totalValue, totalGainLoss, isVisible 
   if (!isVisible) return null;
 
   return (
-    <Box sx={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 2,
-      mr: 2,
-      p: 1.5,
-      borderRadius: 2,
-      bgcolor: alpha(theme.palette.primary.main, 0.08),
-      border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
-    }}>
-      <Box sx={{
-        display: 'flex',
-        gap: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        textAlign: 'right'
-      }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        mr: 2,
+        p: 1.5,
+        borderRadius: 2,
+        bgcolor: alpha(theme.palette.primary.main, 0.08),
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          gap: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          textAlign: "right",
+        }}
+      >
         <Typography variant="caption" color="text.secondary">
           Portfolio Value
         </Typography>
@@ -46,7 +53,7 @@ export default function PortfolioSummary({ totalValue, totalGainLoss, isVisible 
           variant="body2"
           sx={{
             fontWeight: 600,
-            color: 'text.primary',
+            color: "text.primary",
           }}
         >
           {formatCurrency(totalValue)}
@@ -55,12 +62,13 @@ export default function PortfolioSummary({ totalValue, totalGainLoss, isVisible 
       <Typography
         variant="body2"
         sx={{
-          color: totalGainLoss >= 0 ? 'success.main' : 'error.main',
+          color: totalGainLoss >= 0 ? "success.main" : "error.main",
           fontWeight: 600,
-          fontSize: '0.875rem',
+          fontSize: "0.875rem",
         }}
       >
-        {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
+        {totalGainLoss >= 0 ? "+" : ""}
+        {formatCurrency(totalGainLoss)}
       </Typography>
     </Box>
   );

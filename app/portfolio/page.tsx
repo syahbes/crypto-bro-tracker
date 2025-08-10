@@ -1,11 +1,23 @@
-// app/portfolio/page.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Box } from '@mui/material';
-import { useAppSelector, useAppDispatch, removeFromPortfolio, updatePortfolioItem } from '@/lib/store';
-import { useRouter } from 'next/navigation';
-import { PortfolioHeader, PortfolioOverviewCards, PortfolioTable, EmptyPortfolioCard, EditAmountDialog, DeleteConfirmationDialog, PortfolioSkeleton } from '@/components/portfolio';
+import React, { useState } from "react";
+import { Box } from "@mui/material";
+import {
+  useAppSelector,
+  useAppDispatch,
+  removeFromPortfolio,
+  updatePortfolioItem,
+} from "@/lib/store";
+import { useRouter } from "next/navigation";
+import {
+  PortfolioHeader,
+  PortfolioOverviewCards,
+  PortfolioTable,
+  EmptyPortfolioCard,
+  EditAmountDialog,
+  DeleteConfirmationDialog,
+  PortfolioSkeleton,
+} from "@/components/portfolio";
 
 interface PortfolioItem {
   id: string;
@@ -22,9 +34,13 @@ export default function PortfolioPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { items, totalValue, totalGainLoss, totalGainLossPercentage, isLoaded } = useAppSelector(
-    (state) => state.portfolio
-  );
+  const {
+    items,
+    totalValue,
+    totalGainLoss,
+    totalGainLossPercentage,
+    isLoaded,
+  } = useAppSelector((state) => state.portfolio);
 
   const [editDialog, setEditDialog] = useState<{
     open: boolean;
@@ -33,7 +49,7 @@ export default function PortfolioPage() {
   }>({
     open: false,
     item: null,
-    newAmount: '',
+    newAmount: "",
   });
 
   const [deleteDialog, setDeleteDialog] = useState<{
@@ -52,28 +68,26 @@ export default function PortfolioPage() {
     });
   };
 
-  const handleEditAmountChange = (newAmount: string) => {
-    setEditDialog(prev => ({ ...prev, newAmount }));
-  };
+  const handleEditAmountChange = (newAmount: string) =>
+    setEditDialog((prev) => ({ ...prev, newAmount }));
 
   const handleConfirmEdit = () => {
     const newAmount = parseFloat(editDialog.newAmount);
     if (!isNaN(newAmount) && newAmount >= 0 && editDialog.item) {
-      dispatch(updatePortfolioItem({
-        id: editDialog.item.id,
-        amount: newAmount,
-      }));
+      dispatch(
+        updatePortfolioItem({
+          id: editDialog.item.id,
+          amount: newAmount,
+        })
+      );
     }
-    setEditDialog({ open: false, item: null, newAmount: '' });
+    setEditDialog({ open: false, item: null, newAmount: "" });
   };
 
-  const handleCloseEditDialog = () => {
-    setEditDialog({ open: false, item: null, newAmount: '' });
-  };
-
-  const handleDelete = (item: PortfolioItem) => {
+  const handleCloseEditDialog = () =>
+    setEditDialog({ open: false, item: null, newAmount: "" });
+  const handleDelete = (item: PortfolioItem) =>
     setDeleteDialog({ open: true, item });
-  };
 
   const handleConfirmDelete = () => {
     if (deleteDialog.item) {
@@ -82,32 +96,18 @@ export default function PortfolioPage() {
     setDeleteDialog({ open: false, item: null });
   };
 
-  const handleCloseDeleteDialog = () => {
+  const handleCloseDeleteDialog = () =>
     setDeleteDialog({ open: false, item: null });
-  };
+  const handleRowClick = (itemId: string) => router.push(`/coins/${itemId}`);
+  const handleExploreClick = () => router.push("/");
+  const handleRefresh = () => window.location.reload();
 
-  const handleRowClick = (itemId: string) => {
-    router.push(`/coins/${itemId}`);
-  };
-
-  const handleExploreClick = () => {
-    router.push('/');
-  };
-
-  const handleRefresh = () => {
-    window.location.reload();
-  };
-
-  if (!isLoaded) {
-    return <PortfolioSkeleton />;
-  }
-
-  if (items.length === 0) {
+  if (!isLoaded) return <PortfolioSkeleton />;
+  if (items.length === 0)
     return <EmptyPortfolioCard onExploreClick={handleExploreClick} />;
-  }
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', p: { xs: 2, sm: 3 } }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", p: { xs: 2, sm: 3 } }}>
       <PortfolioHeader onRefresh={handleRefresh} />
 
       <PortfolioOverviewCards

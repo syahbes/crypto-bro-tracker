@@ -1,7 +1,6 @@
-// components/portfolio/EmptyPortfolioCard.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Box,
   Typography,
@@ -10,34 +9,36 @@ import {
   Button,
   useTheme,
   alpha,
-} from '@mui/material';
-import { PieChart } from '@mui/icons-material';
+} from "@mui/material";
+import { PieChart } from "@mui/icons-material";
 
 interface EmptyPortfolioCardProps {
   onExploreClick: () => void;
 }
 
-export default function EmptyPortfolioCard({ onExploreClick }: EmptyPortfolioCardProps) {
+export default function EmptyPortfolioCard({
+  onExploreClick,
+}: EmptyPortfolioCardProps) {
   const theme = useTheme();
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', p: { xs: 2, sm: 3 } }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", p: { xs: 2, sm: 3 } }}>
       <Typography variant="h4" component="h1" sx={{ fontWeight: 700, mb: 3 }}>
         My Portfolio
       </Typography>
-      
+
       <Card
         elevation={0}
         sx={{
           borderRadius: 3,
           border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
           backgroundColor: alpha(theme.palette.background.paper, 0.6),
-          textAlign: 'center',
+          textAlign: "center",
           py: 8,
         }}
       >
         <CardContent>
-          <PieChart sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+          <PieChart sx={{ fontSize: 64, color: "text.secondary", mb: 2 }} />
           <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
             Your portfolio is empty
           </Typography>
@@ -48,7 +49,7 @@ export default function EmptyPortfolioCard({ onExploreClick }: EmptyPortfolioCar
             variant="contained"
             size="large"
             onClick={onExploreClick}
-            sx={{ borderRadius: 2, textTransform: 'none' }}
+            sx={{ borderRadius: 2, textTransform: "none" }}
           >
             Explore Cryptocurrencies
           </Button>

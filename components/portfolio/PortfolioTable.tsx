@@ -1,7 +1,6 @@
-// components/portfolio/PortfolioTable.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Paper,
   Box,
@@ -15,8 +14,8 @@ import {
   useTheme,
   useMediaQuery,
   alpha,
-} from '@mui/material';
-import PortfolioTableRow from './PortfolioTableRow';
+} from "@mui/material";
+import PortfolioTableRow from "./PortfolioTableRow";
 
 interface PortfolioItem {
   id: string;
@@ -43,8 +42,8 @@ export default function PortfolioTable({
   onDelete,
 }: PortfolioTableProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -53,8 +52,8 @@ export default function PortfolioTable({
         borderRadius: 3,
         border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
         backgroundColor: alpha(theme.palette.background.paper, 0.6),
-        backdropFilter: 'blur(8px)',
-        overflow: 'hidden',
+        backdropFilter: "blur(8px)",
+        overflow: "hidden",
       }}
     >
       <Box sx={{ p: 3, pb: 0 }}>
@@ -68,9 +67,13 @@ export default function PortfolioTable({
           <TableHead>
             <TableRow>
               <TableCell sx={{ fontWeight: 600 }}>Asset</TableCell>
-              {!isSmall && <TableCell sx={{ fontWeight: 600 }}>Holdings</TableCell>}
+              {!isSmall && (
+                <TableCell sx={{ fontWeight: 600 }}>Holdings</TableCell>
+              )}
               <TableCell sx={{ fontWeight: 600 }}>Current Price</TableCell>
-              {!isMobile && <TableCell sx={{ fontWeight: 600 }}>Purchase Price</TableCell>}
+              {!isMobile && (
+                <TableCell sx={{ fontWeight: 600 }}>Purchase Price</TableCell>
+              )}
               <TableCell sx={{ fontWeight: 600 }}>Value</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>P&L</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>

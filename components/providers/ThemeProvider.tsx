@@ -1,9 +1,18 @@
-// components/ThemeProvider.tsx
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ThemeProvider as MuiThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { lightTheme, darkTheme } from '../theme';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  ThemeProvider as MuiThemeProvider,
+  createTheme,
+  CssBaseline,
+} from "@mui/material";
+import { lightTheme, darkTheme } from "../theme";
 
 interface ThemeContextType {
   isDarkMode: boolean;
@@ -15,7 +24,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const useThemeContext = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useThemeContext must be used within a ThemeProvider');
+    throw new Error("useThemeContext must be used within a ThemeProvider");
   }
   return context;
 };
@@ -29,18 +38,18 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Load theme preference from localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
+      setIsDarkMode(savedTheme === "dark");
     } else {
       // Default to system preference
-      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
     }
   }, []);
 
   // Save theme preference to localStorage
   useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
   const toggleTheme = () => {
@@ -58,4 +67,3 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
     </ThemeContext.Provider>
   );
 }
-

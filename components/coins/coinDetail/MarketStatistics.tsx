@@ -1,15 +1,8 @@
-// components/coins/coinDetail/MarketStatistics.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import {
-  Box,
-  Typography,
-  Paper,
-  useTheme,
-  alpha,
-} from '@mui/material';
-import { Coin } from '@/types/crypto';
+import React from "react";
+import { Box, Typography, Paper, useTheme, alpha } from "@mui/material";
+import { Coin } from "@/types/crypto";
 
 interface MarketStatisticsProps {
   coin: Coin;
@@ -34,7 +27,7 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
         borderRadius: 3,
         border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
         backgroundColor: alpha(theme.palette.background.paper, 0.6),
-        backdropFilter: 'blur(8px)',
+        backdropFilter: "blur(8px)",
       }}
     >
       <Typography
@@ -43,17 +36,19 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
         sx={{
           fontWeight: 600,
           mb: 3,
-          fontSize: { xs: '1.125rem', sm: '1.25rem' }
+          fontSize: { xs: "1.125rem", sm: "1.25rem" },
         }}
       >
         Market Statistics
       </Typography>
 
-      <Box sx={{
-        display: 'grid',
-        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-        gap: 3,
-      }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+          gap: 3,
+        }}
+      >
         <Box>
           <Typography variant="body2" color="text.secondary" gutterBottom>
             Market Capitalization
@@ -62,7 +57,7 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              fontSize: { xs: '1.125rem', sm: '1.25rem' }
+              fontSize: { xs: "1.125rem", sm: "1.25rem" },
             }}
           >
             {formatMarketCap(coin.marketCap)}
@@ -77,7 +72,7 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              fontSize: { xs: '1.125rem', sm: '1.25rem' }
+              fontSize: { xs: "1.125rem", sm: "1.25rem" },
             }}
           >
             {formatMarketCap(coin.totalVolume)}
@@ -92,7 +87,7 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              fontSize: { xs: '1.125rem', sm: '1.25rem' }
+              fontSize: { xs: "1.125rem", sm: "1.25rem" },
             }}
           >
             #{coin.marketCapRank}
@@ -107,7 +102,7 @@ export default function MarketStatistics({ coin }: MarketStatisticsProps) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              fontSize: { xs: '1.125rem', sm: '1.25rem' }
+              fontSize: { xs: "1.125rem", sm: "1.25rem" },
             }}
           >
             {((coin.totalVolume / coin.marketCap) * 100)?.toFixed(2)}%

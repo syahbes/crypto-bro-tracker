@@ -1,16 +1,18 @@
-// components/layout/header/MobileMenuButton.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { IconButton, useTheme } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import React from "react";
+import { IconButton, useTheme } from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 
 interface MobileMenuButtonProps {
   onToggle: () => void;
   isVisible: boolean;
 }
 
-export default function MobileMenuButton({ onToggle, isVisible }: MobileMenuButtonProps) {
+export default function MobileMenuButton({
+  onToggle,
+  isVisible,
+}: MobileMenuButtonProps) {
   const theme = useTheme();
 
   if (!isVisible) return null;

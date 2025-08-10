@@ -1,52 +1,79 @@
-// components/coins/CoinListClient.tsx
-'use client';
+"use client";
 
-import React, { useState, useCallback, useMemo } from 'react';
-import { Box, Typography, Alert, CircularProgress, Paper, FormControl, InputLabel, Select, MenuItem, ToggleButtonGroup, ToggleButton, Pagination, Fab, useTheme, alpha, IconButton } from '@mui/material';
-import { TrendingUp, TrendingDown, Refresh, ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import { useQuery } from '@tanstack/react-query';
-import { CoinGeckoService } from '@/lib/api/coingecko';
-import { Coin } from '@/types/crypto';
-import { useAppDispatch } from '@/lib/store';
-import CoinCard from './CoinCard';
-import SearchBar from './SearchBar';
+import React, { useState, useCallback, useMemo } from "react";
+import {
+  Box,
+  Typography,
+  Alert,
+  CircularProgress,
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  ToggleButtonGroup,
+  ToggleButton,
+  Pagination,
+  Fab,
+  useTheme,
+  alpha,
+  IconButton,
+} from "@mui/material";
+import {
+  TrendingUp,
+  TrendingDown,
+  Refresh,
+  ArrowUpward,
+  ArrowDownward,
+} from "@mui/icons-material";
+import { useQuery } from "@tanstack/react-query";
+import { CoinGeckoService } from "@/lib/api/coingecko";
+import { Coin } from "@/types/crypto";
+import { useAppDispatch } from "@/lib/store";
+import CoinCard from "./CoinCard";
+import SearchBar from "./SearchBar";
 
 interface CoinListClientProps {
   initialCoins: Coin[];
   initialError: string | null;
 }
 
-type SortField = 'market_cap' | 'volume' | 'price' | 'percent_change_24h';
-type SortOrder = 'asc' | 'desc';
-type SortOption = 
-  | 'market_cap_desc'
-  | 'market_cap_asc'
-  | 'volume_desc'
-  | 'price_desc'
-  | 'price_asc'
-  | 'percent_change_24h_desc'
-  | 'percent_change_24h_asc';
+type SortField = "market_cap" | "volume" | "price" | "percent_change_24h";
+type SortOrder = "asc" | "desc";
+type SortOption =
+  | "market_cap_desc"
+  | "market_cap_asc"
+  | "volume_desc"
+  | "price_desc"
+  | "price_asc"
+  | "percent_change_24h_desc"
+  | "percent_change_24h_asc";
 
-type ViewMode = 'grid' | 'list';
+type ViewMode = "grid" | "list";
 
 const COINS_PER_PAGE = 20;
 
 const sortFields = [
-  { value: 'market_cap', label: 'Market Cap' },
-  { value: 'volume', label: 'Volume' },
-  { value: 'price', label: 'Price' },
-  { value: 'percent_change_24h', label: '24h Change' },
+  { value: "market_cap", label: "Market Cap" },
+  { value: "volume", label: "Volume" },
+  { value: "price", label: "Price" },
+  { value: "percent_change_24h", label: "24h Change" },
 ];
 
-export default function CoinListClient({ initialCoins, initialError }: CoinListClientProps) {
+export default function CoinListClient({
+  initialCoins,
+  initialError,
+}: CoinListClientProps) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortField, setSortField] = useState<SortField>('market_cap');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortField, setSortField] = useState<SortField>("market_cap");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [priceFilter, setPriceFilter] = useState<'all' | 'gainers' | 'losers'>('all');
+  const [priceFilter, setPriceFilter] = useState<"all" | "gainers" | "losers">(
+    "all"
+  );
 
   // Convert separate field and order to combined sortBy for API
   const sortBy: SortOption = useMemo(() => {
@@ -60,15 +87,16 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ['coins', sortBy, currentPage],
-    queryFn: () => CoinGeckoService.getCoins({
-      vs_currency: 'usd',
-      order: sortBy,
-      per_page: 100,
-      page: 1,
-      sparkline: false,
-      price_change_percentage: '24h',
-    }),
+    queryKey: ["coins", sortBy, currentPage],
+    queryFn: () =>
+      CoinGeckoService.getCoins({
+        vs_currency: "usd",
+        order: sortBy,
+        per_page: 100,
+        page: 1,
+        sparkline: false,
+        price_change_percentage: "24h",
+      }),
     initialData: initialCoins,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 60 * 1000,
@@ -80,46 +108,47 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
   }, []);
 
   const handleSortOrderToggle = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
   const filteredAndSortedCoins = useMemo(() => {
     let filtered = [...coins];
 
     if (searchQuery.trim()) {
-      filtered = filtered.filter(coin =>
-        coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (coin) =>
+          coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    if (priceFilter === 'gainers') {
-      filtered = filtered.filter(coin => coin.priceChangePercentage24h > 0);
-    } else if (priceFilter === 'losers') {
-      filtered = filtered.filter(coin => coin.priceChangePercentage24h < 0);
+    if (priceFilter === "gainers") {
+      filtered = filtered.filter((coin) => coin.priceChangePercentage24h > 0);
+    } else if (priceFilter === "losers") {
+      filtered = filtered.filter((coin) => coin.priceChangePercentage24h < 0);
     }
 
     filtered.sort((a, b) => {
       let comparison = 0;
-      
+
       switch (sortField) {
-        case 'market_cap': 
+        case "market_cap":
           comparison = b.marketCap - a.marketCap;
           break;
-        case 'volume': 
+        case "volume":
           comparison = b.totalVolume - a.totalVolume;
           break;
-        case 'price': 
+        case "price":
           comparison = b.currentPrice - a.currentPrice;
           break;
-        case 'percent_change_24h': 
+        case "percent_change_24h":
           comparison = b.priceChangePercentage24h - a.priceChangePercentage24h;
           break;
-        default: 
+        default:
           comparison = 0;
       }
-      
-      return sortOrder === 'asc' ? -comparison : comparison;
+
+      return sortOrder === "asc" ? -comparison : comparison;
     });
 
     return filtered;
@@ -132,7 +161,7 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
   );
 
   const handleCoinClick = (coin: Coin) => {
-    console.log('Coin clicked:', coin);
+    console.log("Coin clicked:", coin);
   };
 
   const error = initialError || queryError;
@@ -148,16 +177,23 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
           borderRadius: 2,
           border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
           backgroundColor: alpha(theme.palette.background.paper, 0.6),
-          backdropFilter: 'blur(8px)',
+          backdropFilter: "blur(8px)",
         }}
       >
         <Box display="flex" flexWrap="wrap" gap={3} alignItems="center">
-          <Box sx={{ flex: '1 1 250px' }}>
+          <Box sx={{ flex: "1 1 250px" }}>
             <SearchBar onSearch={handleSearch} placeholder="Search coins..." />
           </Box>
 
           {/* Sort Field and Order Controls */}
-          <Box sx={{ flex: '1 1 200px', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              flex: "1 1 200px",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <FormControl fullWidth size="medium">
               <InputLabel>Sort By</InputLabel>
               <Select
@@ -172,7 +208,7 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
                 ))}
               </Select>
             </FormControl>
-            
+
             <IconButton
               onClick={handleSortOrderToggle}
               size="medium"
@@ -182,17 +218,17 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
                 minWidth: 48,
                 height: 56, // Match the Select height
                 backgroundColor: alpha(theme.palette.primary.main, 0.04),
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: alpha(theme.palette.primary.main, 0.08),
                 },
               }}
-              title={`Sort ${sortOrder === 'asc' ? 'Ascending' : 'Descending'}`}
+              title={`Sort ${sortOrder === "asc" ? "Ascending" : "Descending"}`}
             >
-              {sortOrder === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+              {sortOrder === "asc" ? <ArrowUpward /> : <ArrowDownward />}
             </IconButton>
           </Box>
 
-          <Box sx={{ flex: '1 1 200px' }}>
+          <Box sx={{ flex: "1 1 200px" }}>
             <ToggleButtonGroup
               value={priceFilter}
               exclusive
@@ -213,11 +249,26 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
           </Box>
         </Box>
 
-        <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(theme.palette.divider, 0.08)}` }}>
+        <Box
+          sx={{
+            mt: 2,
+            pt: 2,
+            borderTop: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+          }}
+        >
           <Typography variant="body2" color="text.secondary">
-            Showing {paginatedCoins.length} of {filteredAndSortedCoins.length} cryptocurrencies
+            Showing {paginatedCoins.length} of {filteredAndSortedCoins.length}{" "}
+            cryptocurrencies
             {isFetching && (
-              <Box component="span" sx={{ ml: 2, display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
+              <Box
+                component="span"
+                sx={{
+                  ml: 2,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                }}
+              >
                 <CircularProgress size={12} />
                 Updating...
               </Box>
@@ -233,20 +284,22 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
           sx={{ mb: 3 }}
           action={<button onClick={() => refetch()}>Retry</button>}
         >
-          {typeof error === 'string' ? error : 'Failed to load cryptocurrency data'}
+          {typeof error === "string"
+            ? error
+            : "Failed to load cryptocurrency data"}
         </Alert>
       )}
 
       {/* Loading */}
       {isLoading && !initialCoins.length && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
           <CircularProgress size={40} />
         </Box>
       )}
 
       {/* Empty */}
       {!isLoading && filteredAndSortedCoins.length === 0 && !error && (
-        <Paper sx={{ p: 8, textAlign: 'center', borderRadius: 2 }}>
+        <Paper sx={{ p: 8, textAlign: "center", borderRadius: 2 }}>
           <Typography variant="h6" color="text.secondary" gutterBottom>
             No cryptocurrencies found
           </Typography>
@@ -261,32 +314,29 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
         <>
           <Box
             sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'row',
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
               gap: 3,
-              justifyContent: 'center'
+              justifyContent: "center",
             }}
           >
             {paginatedCoins.map((coin) => (
               <Box
                 key={coin.id}
                 sx={{
-                  flex: '0 0 auto',
-                  width: 280
+                  flex: "0 0 auto",
+                  width: 280,
                 }}
               >
-                <CoinCard
-                  coin={coin}
-                  loading={isLoading && !coins.length}
-                />
+                <CoinCard coin={coin} loading={isLoading && !coins.length} />
               </Box>
             ))}
           </Box>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
               <Pagination
                 count={totalPages}
                 page={currentPage}
@@ -305,7 +355,7 @@ export default function CoinListClient({ initialCoins, initialError }: CoinListC
       <Fab
         color="primary"
         sx={{
-          position: 'fixed',
+          position: "fixed",
           bottom: 24,
           right: 24,
           opacity: isFetching ? 0.5 : 1,

@@ -1,15 +1,12 @@
-// components/layout/MainLayout.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { useRouter } from 'next/navigation';
-
-// Import components
-import Header from './Header';
-import MobileDrawer from './drawer/MobileDrawer';
-import { useThemeContext } from '@/components/providers/ThemeProvider';
-import { useAppSelector } from '@/lib/store';
+import React, { useState } from "react";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { useRouter } from "next/navigation";
+import Header from "@/components/layout/Header";
+import MobileDrawer from "@/components/layout/drawer/MobileDrawer";
+import { useThemeContext } from "@/components/providers/ThemeProvider";
+import { useAppSelector } from "@/lib/store";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -18,14 +15,16 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps) {
   const theme = useTheme();
   const router = useRouter();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { toggleTheme } = useThemeContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Portfolio state from Redux
   const portfolioItems = useAppSelector((state) => state.portfolio.items);
   const totalValue = useAppSelector((state) => state.portfolio.totalValue);
-  const totalGainLoss = useAppSelector((state) => state.portfolio.totalGainLoss);
+  const totalGainLoss = useAppSelector(
+    (state) => state.portfolio.totalGainLoss
+  );
 
   const handleMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -41,12 +40,12 @@ export default function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header 
-        onThemeToggle={toggleTheme} 
-        onMenuToggle={isMobile ? handleMenuToggle : undefined} 
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Header
+        onThemeToggle={toggleTheme}
+        onMenuToggle={isMobile ? handleMenuToggle : undefined}
       />
-      
+
       <MobileDrawer
         isOpen={mobileMenuOpen}
         onClose={handleMenuClose}
@@ -56,12 +55,12 @@ export default function MainLayout({ children }: MainLayoutProps) {
         totalGainLoss={totalGainLoss}
       />
 
-      <Box 
-        component="main" 
-        sx={{ 
+      <Box
+        component="main"
+        sx={{
           flexGrow: 1,
           backgroundColor: theme.palette.background.default,
-          minHeight: 'calc(100vh - 64px)',
+          minHeight: "calc(100vh - 64px)",
         }}
       >
         {children}

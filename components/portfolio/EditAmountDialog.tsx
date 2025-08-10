@@ -1,7 +1,6 @@
-// components/portfolio/EditAmountDialog.tsx
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,7 +10,7 @@ import {
   Typography,
   TextField,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
 interface PortfolioItem {
   id: string;
@@ -42,12 +41,7 @@ export default function EditAmountDialog({
   onConfirm,
 }: EditAmountDialogProps) {
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Edit Holdings</DialogTitle>
       <DialogContent>
         <Box sx={{ mt: 2 }}>
@@ -63,21 +57,18 @@ export default function EditAmountDialog({
             slotProps={{
               htmlInput: {
                 min: 0,
-                step: 0.000001
-              }
+                step: 0.000001,
+              },
             }}
             sx={{ mt: 1 }}
           />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color='inherit'>
+        <Button onClick={onClose} color="inherit">
           Cancel
         </Button>
-        <Button 
-          onClick={onConfirm}
-          variant="contained"
-        >
+        <Button onClick={onConfirm} variant="contained">
           Update
         </Button>
       </DialogActions>

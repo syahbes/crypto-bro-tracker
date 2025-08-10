@@ -16,6 +16,7 @@ import {
   alpha,
 } from "@mui/material";
 import PortfolioTableRow from "./PortfolioTableRow";
+import PortfolioMobileCard from "./PortfolioMobileCard";
 
 interface PortfolioItem {
   id: string;
@@ -43,7 +44,6 @@ export default function PortfolioTable({
 }: PortfolioTableProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -56,32 +56,17 @@ export default function PortfolioTable({
         overflow: "hidden",
       }}
     >
-      <Box sx={{ p: 3, pb: 0 }}>
+      <Box sx={{ p: { xs: 2, sm: 3 }, pb: 0 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
           Holdings
         </Typography>
       </Box>
 
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 600 }}>Asset</TableCell>
-              {!isSmall && (
-                <TableCell sx={{ fontWeight: 600 }}>Holdings</TableCell>
-              )}
-              <TableCell sx={{ fontWeight: 600 }}>Current Price</TableCell>
-              {!isMobile && (
-                <TableCell sx={{ fontWeight: 600 }}>Purchase Price</TableCell>
-              )}
-              <TableCell sx={{ fontWeight: 600 }}>Value</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>P&L</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      {isMobile ? (
+        <Box sx={{ p: { xs: 2, sm: 3 }, pt: 0 }}>
+          <Box display="flex" flexDirection="column" gap={2}>
             {items.map((item) => (
-              <PortfolioTableRow
+              <PortfolioMobileCard
                 key={item.id}
                 item={item}
                 onRowClick={onRowClick}
@@ -89,9 +74,37 @@ export default function PortfolioTable({
                 onDelete={onDelete}
               />
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </Box>
+        </Box>
+      ) : (
+        // Desktop: Table Layout
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Asset</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Holdings</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Current Price</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Purchase Price</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Value</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>P&L</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item) => (
+                <PortfolioTableRow
+                  key={item.id}
+                  item={item}
+                  onRowClick={onRowClick}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Paper>
   );
 }

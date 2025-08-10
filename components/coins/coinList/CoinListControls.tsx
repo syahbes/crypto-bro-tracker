@@ -73,7 +73,10 @@ export default function CoinListControls({
     >
       <Box display="flex" flexWrap="wrap" gap={3} alignItems="center">
         <Box sx={{ flex: "1 1 250px" }}>
-          <SearchBar onSearch={onSearch} placeholder="Search coins..." />
+          <SearchBar
+            onSearch={onSearch}
+            placeholder="Search coins..."
+          />
         </Box>
 
         <Box
@@ -84,7 +87,22 @@ export default function CoinListControls({
             gap: 1,
           }}
         >
-          <FormControl fullWidth size="medium">
+          <FormControl
+            fullWidth
+            size="medium"
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: { xs: "0.80rem", sm: "0.875rem" },
+              },
+              "& .MuiSelect-select": {
+                fontSize: { xs: "0.80rem", sm: "0.875rem" },
+                padding: { xs: "8px 10px", sm: "10px 14px" },
+              },
+              "& .MuiMenuItem-root": {
+                fontSize: { xs: "0.80rem", sm: "0.875rem" },
+              },
+            }}
+          >
             <InputLabel>Sort By</InputLabel>
             <Select
               value={sortField}
@@ -101,15 +119,17 @@ export default function CoinListControls({
 
           <IconButton
             onClick={onSortOrderToggle}
-            size="medium"
             sx={{
               border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
               borderRadius: 1,
-              minWidth: 48,
-              height: 56,
+              minWidth: { xs: 40, sm: 48 },
+              height: { xs: 40, sm: 45 },
               backgroundColor: alpha(theme.palette.primary.main, 0.04),
               "&:hover": {
                 backgroundColor: alpha(theme.palette.primary.main, 0.08),
+              },
+              "& .MuiSvgIcon-root": {
+                fontSize: { xs: 18, sm: 24 },
               },
             }}
             title={`Sort ${sortOrder === "asc" ? "Ascending" : "Descending"}`}
@@ -125,14 +145,23 @@ export default function CoinListControls({
             onChange={(_, value) => value && onPriceFilterChange(value)}
             size="medium"
             fullWidth
+            sx={{
+              "& .MuiToggleButton-root": {
+                fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                padding: { xs: "4px 6px", sm: "6px 8px" },
+              },
+              "& .MuiSvgIcon-root": {
+                fontSize: { xs: 16, sm: 18 },
+              },
+            }}
           >
             <ToggleButton value="all">All</ToggleButton>
             <ToggleButton value="gainers" color="success">
-              <TrendingUp sx={{ mr: 0.5, fontSize: 18 }} />
+              <TrendingUp sx={{ mr: 0.5, fontSize: { xs: 16, sm: 18 } }} />
               Gainers
             </ToggleButton>
             <ToggleButton value="losers" color="error">
-              <TrendingDown sx={{ mr: 0.5, fontSize: 18 }} />
+              <TrendingDown sx={{ mr: 0.5, fontSize: { xs: 16, sm: 18 } }} />
               Losers
             </ToggleButton>
           </ToggleButtonGroup>

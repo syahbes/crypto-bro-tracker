@@ -8,6 +8,8 @@ import {
   Paper,
   Typography,
   Pagination,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Coin } from "@/types/crypto";
 import CoinCard from "@/components/coins/coinCard/CoinCard";
@@ -33,6 +35,9 @@ export default function CoinListContent({
   onPageChange,
   onRetry,
 }: CoinListContentProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   if (error) {
     return (
       <Alert
@@ -79,18 +84,44 @@ export default function CoinListContent({
       <Box
         sx={{
           display: "flex",
-          flexWrap: "wrap",
-          flexDirection: "row",
-          gap: 3,
-          justifyContent: "center",
+          flexDirection: { xs: "column", md: "row" },
+          flexWrap: { xs: "nowrap", md: "wrap" },
+          gap: { xs: 2, sm: 2.5, md: 3 },
+          justifyContent: { xs: "stretch", md: "center" },
+          // Mobile: Stack vertically with full width
+          // Desktop: Wrap horizontally with centered alignment
+          ...(isMobile && {
+            '& > *': {
+              width: '100%'
+            }
+          })
         }}
       >
         {paginatedCoins.map((coin) => (
           <Box
             key={coin.id}
             sx={{
-              flex: "0 0 auto",
-              width: 280,
+              // Mobile: Full width for vertical stacking
+              // Desktop: Fixed width for horizontal wrapping
+              flex: {
+                xs: "1 1 auto",    // Mobile: flexible
+                md: "0 0 auto"     // Desktop: fixed
+              },
+              width: {
+                xs: "100%",        // Mobile: full width
+                sm: "100%",        // Tablet: full width
+                md: 280            // Desktop: fixed width
+              },
+              maxWidth: {
+                xs: "100%",
+                sm: 400,           // Max width on tablet for better readability
+                md: 280
+              },
+              mx: {
+                xs: 0,
+                sm: "auto",        // Center on tablet
+                md: 0
+              }
             }}
           >
             <CoinCard coin={coin} loading={isLoading && !coins.length} />
@@ -99,15 +130,25 @@ export default function CoinListContent({
       </Box>
 
       {totalPages > 1 && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          mt: { xs: 3, md: 4 },
+          px: { xs: 1, sm: 0 }  // Add padding on mobile to prevent edge touching
+        }}>
           <Pagination
             count={totalPages}
             page={currentPage}
             onChange={(_, page) => onPageChange(page)}
             color="primary"
-            size="large"
-            showFirstButton
-            showLastButton
+            size={isMobile ? "medium" : "large"}
+            showFirstButton={!isMobile}    // Hide first/last buttons on mobile to save space
+            showLastButton={!isMobile}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                fontSize: { xs: '0.875rem', md: '1rem' }
+              }
+            }}
           />
         </Box>
       )}

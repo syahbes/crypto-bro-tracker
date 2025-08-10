@@ -5,3 +5,4 @@ export { default as EmptyPortfolioCard } from "./EmptyPortfolioCard";
 export { default as EditAmountDialog } from "./EditAmountDialog";
 export { default as DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 export { default as PortfolioSkeleton } from "./PortfolioSkeleton";
+export { default as PortfolioMobileCard } from "./PortfolioMobileCard";

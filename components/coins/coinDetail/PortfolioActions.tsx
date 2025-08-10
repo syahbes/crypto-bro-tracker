@@ -81,7 +81,7 @@ export default function PortfolioActions({
 
         {existingPortfolioItem && (
           <Alert severity="info" sx={{ mb: 3 }}>
-            You already own {existingPortfolioItem.amount?.toFixed(6)}{" "}
+            You own {existingPortfolioItem.amount?.toFixed(6)}{" "}
             {coin.symbol.toUpperCase()} in your portfolio
           </Alert>
         )}

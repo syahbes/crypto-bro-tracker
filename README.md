@@ -2,7 +2,11 @@
 
 A modern, responsive web application built with Next.js and TypeScript that allows users to browse cryptocurrencies and manage their investment portfolio.
 
-## 🚀 Features
+## Live Demo
+[https://crypto-bro-tracker.vercel.app/](https://crypto-bro-tracker.vercel.app/)
+
+
+## Features
 
 ### Core Functionality
 - **Cryptocurrency List Page (SSR)**: Browse cryptocurrencies with server-side rendering for optimal performance
@@ -23,27 +27,24 @@ A modern, responsive web application built with Next.js and TypeScript that allo
 - **API Integration**: Real-time cryptocurrency data from public APIs (CoinGecko)
 - **Code Quality**: ESLint and Prettier for consistent code formatting
 - **TypeScript**: Full type safety throughout the application
-- **React Query**: Efficient data fetching and caching
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Framework**: [Next.js](https://nextjs.org/) with TypeScript
-- **UI Library**: [Material-UI (MUI)](https://mui.com/)
-- **State Management**: [Redux Toolkit](https://redux-toolkit.js.org/)
-- **Styling**: Material-UI with custom theming
+- **Framework**: Next.js with TypeScript
+- **UI Library**: Material-UI (MUI)
+- **State Management**: Redux Toolkit
 - **Code Quality**: ESLint + Prettier
-- **API**: CoinGecko API for cryptocurrency data
 - **React Query**: Efficient data fetching and caching
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running this project, make sure you have:
 
-- Node.js (version 22.10 or higher)
-- npm or yarn package manager
+- Node.js (version 22.18.0 or higher)
+- npm package manager
 - Git
 
-## 🚀 Getting Started
+## Running the Project
 
 ### Installation
 
@@ -66,10 +67,8 @@ Before running this project, make sure you have:
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
 
-5. **Live demo**
-   [https://crypto-bro-tracker.vercel.app/](https://crypto-bro-tracker.vercel.app/)
 
-## 🐛 Known Issues
+## Known Issues
 
 - API rate limiting may affect data freshness during high usage
 - Example of error:

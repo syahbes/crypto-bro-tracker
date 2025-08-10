@@ -5,7 +5,6 @@ import {
   TextField,
   InputAdornment,
   Paper,
-  Box,
   IconButton,
   useTheme,
   alpha,

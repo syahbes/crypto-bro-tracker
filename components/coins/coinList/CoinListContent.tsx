@@ -18,7 +18,7 @@ interface CoinListContentProps {
   totalPages: number;
   currentPage: number;
   isLoading: boolean;
-  error: any;
+  error: string | Error | null;
   onPageChange: (page: number) => void;
   onRetry: () => void;
 }
@@ -42,6 +42,8 @@ export default function CoinListContent({
       >
         {typeof error === "string"
           ? error
+          : error instanceof Error
+          ? error.message
           : "Failed to load cryptocurrency data"}
       </Alert>
     );

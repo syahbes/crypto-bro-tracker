@@ -35,6 +35,7 @@ export default function CoinListClient({
 
   const {
     filters,
+    filteredAndSortedCoins,
     paginatedCoins,
     totalPages,
     handlers: {
@@ -55,7 +56,7 @@ export default function CoinListClient({
         sortOrder={filters.sortOrder}
         priceFilter={filters.priceFilter}
         paginatedCoinsLength={paginatedCoins.length}
-        filteredCoinsLength={paginatedCoins.length}
+        filteredCoinsLength={filteredAndSortedCoins.length}
         isFetching={isFetching}
         onSearch={handleSearch}
         onSortFieldChange={setSortField}

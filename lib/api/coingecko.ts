@@ -77,6 +77,24 @@ export class CoinGeckoService {
     }
   }
 
+  // 🔧 FIXED: Now uses fetchData consistently
+  static async getCoinsByIds(ids: string[]): Promise<Coin[]> {
+    if (ids.length === 0) return [];
+
+    const idsParam = ids.join(",");
+
+    try {
+      const data = await this.fetchData<CoinGeckoMarketData[]>(
+        `/coins/markets?vs_currency=usd&ids=${idsParam}&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en`
+      );
+
+      return data.map(this.transformCoinData);
+    } catch (error) {
+      console.error("Error fetching coins by IDs:", error);
+      return [];
+    }
+  }
+
   private static transformCoinData(data: CoinGeckoMarketData): Coin {
     return {
       id: data.id,
@@ -92,56 +110,18 @@ export class CoinGeckoService {
       high24h: data.high_24h,
       low24h: data.low_24h,
       lastUpdated: data.last_updated,
+      fullyDilutedValuation: data.fully_diluted_valuation,
+      marketCapChange24h: data.market_cap_change_24h,
+      marketCapChangePercentage24h: data.market_cap_change_percentage_24h,
+      circulatingSupply: data.circulating_supply,
+      totalSupply: data.total_supply,
+      maxSupply: data.max_supply,
+      ath: data.ath,
+      athChangePercentage: data.ath_change_percentage,
+      athDate: data.ath_date,
+      atl: data.atl,
+      atlChangePercentage: data.atl_change_percentage,
+      atlDate: data.atl_date,
     };
-  }
-
-  static async getCoinsByIds(ids: string[]): Promise<Coin[]> {
-    if (ids.length === 0) return [];
-
-    const idsParam = ids.join(",");
-    const response = await fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${idsParam}&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch coins: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    return data.map(
-      (coin: any): Coin => ({
-        id: coin.id,
-        symbol: coin.symbol,
-        name: coin.name,
-        image: coin.image,
-        currentPrice: coin.current_price,
-        marketCap: coin.market_cap,
-        marketCapRank: coin.market_cap_rank,
-        fullyDilutedValuation: coin.fully_diluted_valuation,
-        totalVolume: coin.total_volume,
-        high24h: coin.high_24h,
-        low24h: coin.low_24h,
-        priceChange24h: coin.price_change_24h,
-        priceChangePercentage24h: coin.price_change_percentage_24h,
-        marketCapChange24h: coin.market_cap_change_24h,
-        marketCapChangePercentage24h: coin.market_cap_change_percentage_24h,
-        circulatingSupply: coin.circulating_supply,
-        totalSupply: coin.total_supply,
-        maxSupply: coin.max_supply,
-        ath: coin.ath,
-        athChangePercentage: coin.ath_change_percentage,
-        athDate: coin.ath_date,
-        atl: coin.atl,
-        atlChangePercentage: coin.atl_change_percentage,
-        atlDate: coin.atl_date,
-        lastUpdated: coin.last_updated,
-      })
-    );
   }
 }

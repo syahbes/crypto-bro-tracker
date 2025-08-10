@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 // Import components
 import Header from './Header';
 import MobileDrawer from './drawer/MobileDrawer';
-import { useThemeContext } from '@/components/ThemeProvider';
+import { useThemeContext } from '@/components/providers/ThemeProvider';
 import { useAppSelector } from '@/lib/store';
 
 interface MainLayoutProps {

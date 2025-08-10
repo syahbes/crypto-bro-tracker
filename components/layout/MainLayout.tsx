@@ -40,7 +40,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", pt: 6 }}>
       <Header
         onThemeToggle={toggleTheme}
         onMenuToggle={isMobile ? handleMenuToggle : undefined}

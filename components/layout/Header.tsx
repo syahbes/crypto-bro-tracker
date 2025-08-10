@@ -50,6 +50,12 @@ export default function Header({ onThemeToggle, onMenuToggle }: HeaderProps) {
       elevation={1}
       sx={{
         backgroundColor: theme.palette.background.paper,
+        // add opacity to the background color
+        opacity: 0.8,
+        backdropFilter: "blur(8px)",
+        position: "fixed",
+        top: 0,
+        zIndex: 1000,
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >

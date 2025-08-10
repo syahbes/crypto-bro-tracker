@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import StoreProvider from '@/app/StoreProvider';
 import { PortfolioProvider } from './PortfolioProvider';
+import ThemeProvider from "@/components/ThemeProvider";
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
@@ -19,7 +21,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <StoreProvider>
         <QueryClientProvider client={queryClient}>
           <PortfolioProvider>
-            {children}
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
           </PortfolioProvider>
         </QueryClientProvider>
       </StoreProvider>

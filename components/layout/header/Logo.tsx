@@ -24,7 +24,7 @@ export default function Logo({ onLogoClick }: LogoProps) {
           fontWeight: 700,
           color: theme.palette.text.primary,
           letterSpacing: '-0.025em',
-          fontFamily: 'var(--font-geist-sans)',
+          fontFamily: 'var(--font-ibm-plex-sans)',
           cursor: 'pointer',
           transition: 'color 0.2s ease',
           '&:hover': {

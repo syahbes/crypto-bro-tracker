@@ -39,6 +39,7 @@ export default async function HomePage() {
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
+            fontFamily: 'var(--font-ibm-plex-mono)',
           }}
         >
           Cryptocurrency Portfolio Tracker
@@ -48,7 +49,7 @@ export default async function HomePage() {
           color="text.secondary"
           sx={{ fontWeight: 400 }}
         >
-          Track and manage your crypto investments
+          Track your crypto portfolio, manage your investments, and get real-time market data.
         </Typography>
       </Box>
 
@@ -66,4 +67,5 @@ export const metadata = {
   title: 'Crypto Portfolio Tracker | Track Your Investments',
   description: 'Track and manage your cryptocurrency portfolio with real-time prices, market data, and performance analytics.',
   keywords: 'cryptocurrency, bitcoin, ethereum, portfolio, tracker, crypto, investment',
+  authors: [ 'Shlomo Yahnes'],
 };

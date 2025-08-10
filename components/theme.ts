@@ -23,40 +23,37 @@ export const lightTheme: ThemeOptions = {
     divider: '#e0e0e0',
   },
   typography: {
-    fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+    fontFamily: 'var(--font-ibm-plex-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
     h1: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 700,
     },
     h2: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h3: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h4: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h5: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h6: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     body1: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
     },
     body2: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
     },
-    // code: {
-    //   fontFamily: 'var(--font-geist-mono)',
-    // },
   },
   shape: {
     borderRadius: 8,
@@ -102,40 +99,37 @@ export const darkTheme: ThemeOptions = {
     divider: '#333333',
   },
   typography: {
-    fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+    fontFamily: 'var(--font-ibm-plex-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
     h1: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 700,
     },
     h2: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h3: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h4: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h5: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     h6: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
       fontWeight: 600,
     },
     body1: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
     },
     body2: {
-      fontFamily: 'var(--font-geist-sans)',
+      fontFamily: 'var(--font-ibm-plex-sans)',
     },
-    // code: {
-    //   fontFamily: 'var(--font-geist-mono)',
-    // },
   },
   shape: {
     borderRadius: 8,

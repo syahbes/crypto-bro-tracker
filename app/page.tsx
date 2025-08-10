@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { CoinGeckoService } from "@/lib/api/coingecko";
 import { Coin } from "@/types/crypto";
-import CoinListClient from "@/components/coins/CoinListClient";
+import CoinListClient from "@/components/coins/coinList/CoinListClient";
 
 export default async function HomePage() {
   let initialCoins: Coin[] = [];

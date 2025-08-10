@@ -5,9 +5,7 @@ import { Box } from "@mui/material";
 import { Coin } from "@/types/crypto";
 import { useCoinListData } from "@/hooks/useCoinListData";
 import { useCoinListFilters } from "@/hooks/useCoinListFilters";
-import CoinListControls from "@/components/coins/coinList/CoinListControls";
-import CoinListContent from "@/components/coins/coinList/CoinListContent";
-import RefreshButton from "@/components/coins/coinList/RefreshButton";
+import { CoinListControls, CoinListContent, RefreshButton } from "./index";
 
 interface CoinListClientProps {
   initialCoins: Coin[];

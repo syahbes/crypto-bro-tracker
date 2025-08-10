@@ -1,7 +1,6 @@
-// components/coins/SearchBar.tsx
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   InputAdornment,
@@ -10,8 +9,8 @@ import {
   IconButton,
   useTheme,
   alpha,
-} from '@mui/material';
-import { Search, Clear } from '@mui/icons-material';
+} from "@mui/material";
+import { Search, Clear } from "@mui/icons-material";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -21,20 +20,21 @@ interface SearchBarProps {
   onChange?: (value: string) => void;
 }
 
-export default function SearchBar({ 
-  onSearch, 
+export default function SearchBar({
+  onSearch,
   placeholder = "Search coins...",
   debounceMs = 500,
   value: controlledValue,
   onChange,
 }: SearchBarProps) {
   const theme = useTheme();
-  const [internalValue, setInternalValue] = useState('');
-  const [debouncedValue, setDebouncedValue] = useState('');
-  
+  const [internalValue, setInternalValue] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState("");
+
   // Use controlled value if provided, otherwise use internal state
   const value = controlledValue !== undefined ? controlledValue : internalValue;
-  const setValue = controlledValue !== undefined ? (onChange || (() => {})) : setInternalValue;
+  const setValue =
+    controlledValue !== undefined ? onChange || (() => {}) : setInternalValue;
 
   // Debounce the search value
   useEffect(() => {
@@ -55,23 +55,23 @@ export default function SearchBar({
   };
 
   const handleClear = () => {
-    setValue('');
+    setValue("");
   };
 
   return (
-    <Paper 
+    <Paper
       elevation={0}
       sx={{
         borderRadius: 2,
         border: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
         backgroundColor: theme.palette.background.default,
-        backdropFilter: 'blur(8px)',
-        transition: 'all 0.2s ease-in-out',
-        '&:focus-within': {
+        backdropFilter: "blur(8px)",
+        transition: "all 0.2s ease-in-out",
+        "&:focus-within": {
           borderColor: theme.palette.primary.main,
           boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.1)}`,
         },
-        '&:hover': {
+        "&:hover": {
           borderColor: alpha(theme.palette.primary.main, 0.3),
         },
       }}
@@ -86,7 +86,7 @@ export default function SearchBar({
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
+                <Search sx={{ color: "text.secondary", fontSize: 20 }} />
               </InputAdornment>
             ),
             endAdornment: value && (
@@ -96,9 +96,9 @@ export default function SearchBar({
                   size="small"
                   edge="end"
                   sx={{
-                    color: 'text.secondary',
-                    '&:hover': {
-                      color: 'text.primary',
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "text.primary",
                       backgroundColor: alpha(theme.palette.text.primary, 0.08),
                     },
                   }}
@@ -108,19 +108,19 @@ export default function SearchBar({
               </InputAdornment>
             ),
             sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none",
               },
-              '& .MuiInputBase-input': {
-                fontSize: '1rem',
+              "& .MuiInputBase-input": {
+                fontSize: "1rem",
                 py: 1.5,
-                '&::placeholder': {
-                  color: 'text.secondary',
+                "&::placeholder": {
+                  color: "text.secondary",
                   opacity: 0.7,
                 },
               },
             },
-          }
+          },
         }}
       />
     </Paper>

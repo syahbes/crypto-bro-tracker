@@ -1,10 +1,9 @@
-// components/layout/header/DesktopNavigation.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { Box, Button, Badge, useTheme } from '@mui/material';
-import { usePathname } from 'next/navigation';
-import { Home, AccountBalance } from '@mui/icons-material';
+import React from "react";
+import { Box, Button, Badge, useTheme } from "@mui/material";
+import { usePathname } from "next/navigation";
+import { Home, AccountBalance } from "@mui/icons-material";
 
 interface NavigationItem {
   label: string;
@@ -18,26 +17,29 @@ interface DesktopNavigationProps {
   onNavigate: (path: string) => void;
 }
 
-export default function DesktopNavigation({ portfolioItemsCount, onNavigate }: DesktopNavigationProps) {
+export default function DesktopNavigation({
+  portfolioItemsCount,
+  onNavigate,
+}: DesktopNavigationProps) {
   const theme = useTheme();
   const pathname = usePathname();
 
   const navItems: NavigationItem[] = [
     {
-      label: 'Home',
-      path: '/',
+      label: "Home",
+      path: "/",
       icon: <Home />,
     },
     {
-      label: 'Portfolio',
-      path: '/portfolio',
+      label: "Portfolio",
+      path: "/portfolio",
       icon: <AccountBalance />,
       badge: portfolioItemsCount > 0 ? portfolioItemsCount : null,
     },
   ];
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 2 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mr: 2 }}>
       {navItems.map((item) => (
         <Button
           key={item.path}
@@ -53,14 +55,14 @@ export default function DesktopNavigation({ portfolioItemsCount, onNavigate }: D
           }
           sx={{
             borderRadius: 2,
-            textTransform: 'none',
+            textTransform: "none",
             fontWeight: pathname === item.path ? 600 : 500,
-            color: pathname === item.path ? 'primary.dark' : 'text.primary',
-            bgcolor: 'transparent',
+            color: pathname === item.path ? "primary.dark" : "text.primary",
+            bgcolor: "transparent",
             px: 2,
             py: 1,
-            transition: 'all 0.2s ease',
-            '&:hover': {
+            transition: "all 0.2s ease",
+            "&:hover": {
               color: theme.palette.primary.dark,
             },
           }}

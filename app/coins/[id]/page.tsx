@@ -1,7 +1,7 @@
-import CoinDetailPage from '@/components/coins/CoinDetailPage';
-import { CoinGeckoService } from '@/lib/api/coingecko';
-import { Suspense } from 'react';
-import CoinDetailSkeleton from '@/components/coins/coinDetail/CoinDetailSkeleton';
+import { CoinGeckoService } from "@/lib/api/coingecko";
+import { Suspense } from "react";
+import CoinDetailSkeleton from "@/components/coins/coinDetail/CoinDetailSkeleton";
+import CoinDetailPage from "@/components/coins/coinDetail/CoinDetailPage";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -9,9 +9,9 @@ interface PageProps {
 
 export default async function CoinPage({ params }: PageProps) {
   const { id } = await params;
-  
+
   return (
-    <Suspense fallback={<CoinDetailSkeleton /> }>
+    <Suspense fallback={<CoinDetailSkeleton />}>
       <CoinDetailPageWrapper coinId={id} />
     </Suspense>
   );
@@ -19,17 +19,12 @@ export default async function CoinPage({ params }: PageProps) {
 
 async function CoinDetailPageWrapper({ coinId }: { coinId: string }) {
   let initialData = null;
-  
+
   try {
     initialData = await CoinGeckoService.getCoinById(coinId);
   } catch (error) {
-    console.error('Failed to fetch initial coin data:', error);
+    console.error("Failed to fetch initial coin data:", error);
   }
-  
-  return (
-    <CoinDetailPage 
-      coinId={coinId} 
-      initialData={initialData} 
-    />
-  );
+
+  return <CoinDetailPage coinId={coinId} initialData={initialData} />;
 }

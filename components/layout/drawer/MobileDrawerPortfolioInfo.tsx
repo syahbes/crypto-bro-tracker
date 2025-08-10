@@ -1,8 +1,7 @@
-// components/layout/drawer/MobileDrawerPortfolioInfo.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { Box, Typography, Divider, alpha, useTheme } from '@mui/material';
+import React from "react";
+import { Box, Typography, Divider, alpha, useTheme } from "@mui/material";
 
 interface MobileDrawerPortfolioInfoProps {
   totalValue: number;
@@ -10,10 +9,10 @@ interface MobileDrawerPortfolioInfoProps {
   isVisible: boolean;
 }
 
-export default function MobileDrawerPortfolioInfo({ 
-  totalValue, 
-  totalGainLoss, 
-  isVisible 
+export default function MobileDrawerPortfolioInfo({
+  totalValue,
+  totalGainLoss,
+  isVisible,
 }: MobileDrawerPortfolioInfoProps) {
   const theme = useTheme();
 
@@ -27,44 +26,49 @@ export default function MobileDrawerPortfolioInfo({
 
   return (
     <>
-      <Box sx={{ 
-        mx: 2,
-        mb: 2,
-        p: 2,
-        borderRadius: 2,
-        bgcolor: alpha(theme.palette.primary.main, 0.08),
-        border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
-      }}>
-        <Typography 
-          variant="caption" 
+      <Box
+        sx={{
+          mx: 2,
+          mb: 2,
+          p: 2,
+          borderRadius: 2,
+          bgcolor: alpha(theme.palette.primary.main, 0.08),
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+        }}
+      >
+        <Typography
+          variant="caption"
           color="text.secondary"
-          sx={{ mb: 1, display: 'block' }}
+          sx={{ mb: 1, display: "block" }}
         >
           Portfolio Value
         </Typography>
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-          <Typography 
-            variant="body2" 
-            sx={{ 
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
               fontWeight: 600,
-              color: 'text.primary',
+              color: "text.primary",
             }}
           >
             {formatCurrency(totalValue)}
           </Typography>
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              color: totalGainLoss >= 0 ? 'success.main' : 'error.main',
+          <Typography
+            variant="body2"
+            sx={{
+              color: totalGainLoss >= 0 ? "success.main" : "error.main",
               fontWeight: 600,
-              fontSize: '0.875rem',
+              fontSize: "0.875rem",
             }}
           >
-            {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
+            {totalGainLoss >= 0 ? "+" : ""}
+            {formatCurrency(totalGainLoss)}
           </Typography>
         </Box>
       </Box>

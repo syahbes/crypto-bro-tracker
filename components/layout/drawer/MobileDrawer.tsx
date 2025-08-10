@@ -1,10 +1,10 @@
 // components/layout/drawer/MobileDrawer.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { Box, Drawer, useTheme } from '@mui/material';
-import MobileDrawerPortfolioInfo from './MobileDrawerPortfolioInfo';
-import MobileDrawerNavigation from './MobileDrawerNavigation';
+import React from "react";
+import { Box, Drawer, useTheme } from "@mui/material";
+import MobileDrawerPortfolioInfo from "./MobileDrawerPortfolioInfo";
+import MobileDrawerNavigation from "./MobileDrawerNavigation";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -15,13 +15,13 @@ interface MobileDrawerProps {
   totalGainLoss: number;
 }
 
-export default function MobileDrawer({ 
-  isOpen, 
-  onClose, 
+export default function MobileDrawer({
+  isOpen,
+  onClose,
   onNavigate,
   portfolioItems,
   totalValue,
-  totalGainLoss 
+  totalGainLoss,
 }: MobileDrawerProps) {
   const theme = useTheme();
 
@@ -31,9 +31,9 @@ export default function MobileDrawer({
       open={isOpen}
       onClose={onClose}
       sx={{
-        display: { xs: 'block', md: 'none' },
-        '& .MuiDrawer-paper': {
-          boxSizing: 'border-box',
+        display: { xs: "block", md: "none" },
+        "& .MuiDrawer-paper": {
+          boxSizing: "border-box",
           width: 240,
           backgroundColor: theme.palette.background.paper,
         },

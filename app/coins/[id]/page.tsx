@@ -1,7 +1,7 @@
-import CoinDetailPage from '@/components/coins/CoinDetailPage';
 import { CoinGeckoService } from '@/lib/api/coingecko';
 import { Suspense } from 'react';
 import CoinDetailSkeleton from '@/components/coins/coinDetail/CoinDetailSkeleton';
+import CoinDetailPage from '@/components/coins/coinDetail/CoinDetailPage';
 
 interface PageProps {
   params: Promise<{ id: string }>;

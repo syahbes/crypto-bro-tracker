@@ -9,7 +9,7 @@ export default function PortfolioSkeleton() {
       <Skeleton variant="text" width={200} height={40} sx={{ mb: 3 }} />
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {[...Array(3)].map((_, i) => (
+        {[...Array(2)].map((_, i) => (
           <Grid sx={{ mb: 4 }} key={i}>
             <Paper sx={{ p: 3, textAlign: "center", borderRadius: 3 }}>
               <Skeleton

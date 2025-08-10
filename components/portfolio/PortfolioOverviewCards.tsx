@@ -8,6 +8,7 @@ import {
   Typography,
   useTheme,
   alpha,
+  Box,
 } from "@mui/material";
 import {
   TrendingUp,
@@ -53,27 +54,48 @@ export default function PortfolioOverviewCards({
     border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
     backgroundColor: alpha(theme.palette.background.paper, 0.6),
     backdropFilter: "blur(8px)",
+    height: "100%",
   };
 
   const cardContentStyle = {
     textAlign: "center" as const,
-    minHeight: 180,
-    minWidth: 180,
+    padding: { xs: 2, sm: 3 },
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    minHeight: { xs: 140, sm: 160, md: 180 },
+  };
+
+  const iconStyle = {
+    fontSize: { xs: 32, sm: 36, md: 40 },
+    mb: { xs: 0.5, sm: 1 },
   };
 
   return (
-    <Grid container spacing={3} sx={{ mb: 4 }}>
+    <Grid container spacing={{ xs: 2, sm: 3 }} sx={{ mb: { xs: 3, sm: 4 } }}>
       {/* Total Portfolio Value */}
-      <Grid sx={{ mb: 4 }}>
+      <Grid sx={{ xs: 12, sm: 6, md: 4 }}>
         <Card elevation={0} sx={cardStyle}>
           <CardContent sx={cardContentStyle}>
             <AccountBalance
-              sx={{ fontSize: 40, color: "primary.main", mb: 1 }}
+              sx={{ ...iconStyle, color: "primary.main" }}
             />
-            <Typography variant="body2" color="text.secondary" gutterBottom>
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              gutterBottom
+              sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+            >
               Total Portfolio Value
             </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 700 }}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                fontWeight: 700,
+                fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' }
+              }}
+            >
               {formatCurrency(totalValue)}
             </Typography>
           </CardContent>
@@ -81,50 +103,53 @@ export default function PortfolioOverviewCards({
       </Grid>
 
       {/* Total Gain/Loss */}
-      <Grid sx={{ mb: 4 }}>
+      <Grid sx={{ xs: 12, sm: 6, md: 4 }}>
         <Card elevation={0} sx={cardStyle}>
           <CardContent sx={cardContentStyle}>
-            <ShowChart sx={{ fontSize: 40, color: totalChangeColor, mb: 1 }} />
-            <Typography variant="body2" color="text.secondary" gutterBottom>
+            <ShowChart sx={{ ...iconStyle, color: totalChangeColor }} />
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              gutterBottom
+              sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+            >
               Total Gain/Loss
             </Typography>
-            <Typography
-              variant="h4"
+            <Box
               sx={{
-                fontWeight: 700,
-                color: totalChangeColor,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: 1,
+                gap: { xs: 0.5, sm: 1 },
+                flexWrap: "wrap",
               }}
             >
-              {isPositiveTotal ? <TrendingUp /> : <TrendingDown />}
-              {formatCurrency(Math.abs(totalGainLoss))}
-            </Typography>
+              {isPositiveTotal ? (
+                <TrendingUp sx={{ fontSize: { xs: 20, sm: 24 } }} />
+              ) : (
+                <TrendingDown sx={{ fontSize: { xs: 20, sm: 24 } }} />
+              )}
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: totalChangeColor,
+                  fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2.125rem' }
+                }}
+              >
+                {formatCurrency(Math.abs(totalGainLoss))}
+              </Typography>
+            </Box>
             <Typography
               variant="body2"
-              sx={{ color: totalChangeColor, fontWeight: 600 }}
+              sx={{ 
+                color: totalChangeColor, 
+                fontWeight: 600,
+                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                mt: 0.5
+              }}
             >
               {formatPercentage(totalGainLossPercentage)}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Total Holdings */}
-      <Grid sx={{ mb: 4 }}>
-        <Card elevation={0} sx={cardStyle}>
-          <CardContent sx={cardContentStyle}>
-            <PieChart sx={{ fontSize: 40, color: "warning.main", mb: 1 }} />
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Total Holdings
-            </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-              {totalHoldings}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {totalHoldings === 1 ? "Asset" : "Assets"}
             </Typography>
           </CardContent>
         </Card>

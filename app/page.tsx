@@ -40,7 +40,7 @@ export default async function HomePage() {
             fontFamily: "var(--font-ibm-plex-mono)",
           }}
         >
-          Cryptocurrency Portfolio Tracker
+          Crypto Tracker
         </Typography>
         <Typography
           variant="h6"

@@ -1,3 +1,4 @@
+// app/coins/[id]/page.tsx
 import { CoinGeckoService } from "@/lib/api/coingecko";
 import { Suspense } from "react";
 import CoinDetailSkeleton from "@/components/coins/coinDetail/CoinDetailSkeleton";

@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { Box, Alert, Button } from "@mui/material";
+import { Box, Alert, Button, Snackbar } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { CoinGeckoService } from "@/lib/api/coingecko";
 import {
@@ -29,6 +29,7 @@ export default function CoinPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [addedAmount, setAddedAmount] = useState(0);
+  const [showClipboardMessage, setShowClipboardMessage] = useState(false);
 
   // Get portfolio items to check if this coin is already in portfolio
   const portfolioItems = useAppSelector((state) => state.portfolio.items);
@@ -68,7 +69,7 @@ export default function CoinPage() {
     setShowSuccessMessage(true);
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (navigator.share && coin) {
       navigator.share({
         title: `${coin.name} (${coin.symbol})`,
@@ -85,7 +86,12 @@ export default function CoinPage() {
       });
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setShowClipboardMessage(true);
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
     }
   };
 
@@ -117,13 +123,29 @@ export default function CoinPage() {
         pb: { xs: 4, sm: 3 }, // Extra padding bottom on mobile
       }}
     >
-      {/* Success Snackbar */}
+      {/* Success Snackbar for Portfolio */}
       <SuccessSnackbar
         open={showSuccessMessage}
         onClose={() => setShowSuccessMessage(false)}
         amount={addedAmount}
         symbol={coin.symbol}
       />
+
+      {/* Clipboard Success Snackbar */}
+      <Snackbar
+        open={showClipboardMessage}
+        autoHideDuration={3000}
+        onClose={() => setShowClipboardMessage(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setShowClipboardMessage(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Link copied to clipboard!
+        </Alert>
+      </Snackbar>
 
       {/* Page Header */}
       <PageHeader />

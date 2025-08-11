@@ -5,7 +5,7 @@ A modern, responsive web application built with Next.js and TypeScript that allo
 ## Live at
 [https://crypto-bro-tracker.vercel.app/](https://crypto-bro-tracker.vercel.app/)
 
-## Screen Shot
+## Screenshot
 <img width="1918" height="1079" alt="ff-ios-android" src="https://github.com/user-attachments/assets/06f5a215-2035-4ee7-8bed-e9c0e1946aa7" />
 
 

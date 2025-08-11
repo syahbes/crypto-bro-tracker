@@ -2,7 +2,7 @@
 
 import React from "react";
 import { IconButton, useTheme } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { DarkMode, LightMode } from "@mui/icons-material";
 
 interface ThemeToggleProps {
   onToggle: () => void;
@@ -26,7 +26,7 @@ export default function ThemeToggle({ onToggle }: ThemeToggleProps) {
         },
       }}
     >
-      {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+      {isDarkMode ? <LightMode /> : <DarkMode />}
     </IconButton>
   );
 }

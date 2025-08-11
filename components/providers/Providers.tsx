@@ -1,9 +1,10 @@
 "use client";
+
 import { useState } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import StoreProvider from "@/components/providers/StoreProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PortfolioProvider } from "./PortfolioProvider";
+import { PortfolioProvider } from "@/components/providers/PortfolioProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {

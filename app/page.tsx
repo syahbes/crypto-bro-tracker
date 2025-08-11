@@ -58,11 +58,3 @@ export default async function HomePage() {
   );
 }
 
-export const metadata = {
-  title: "Crypto Portfolio Tracker | Track Your Investments",
-  description:
-    "Track and manage your cryptocurrency portfolio with real-time prices, market data, and performance analytics.",
-  keywords:
-    "cryptocurrency, bitcoin, ethereum, portfolio, tracker, crypto, investment",
-  authors: ["Shlomo Yahnes"],
-};

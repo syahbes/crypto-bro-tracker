@@ -8,8 +8,6 @@ import {
   Box,
   Avatar,
   Chip,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import { TrendingUp, TrendingDown } from "@mui/icons-material";
 import { Coin } from "@/types/crypto";
@@ -22,10 +20,6 @@ interface CoinCardProps {
 }
 
 export default function CoinCard({ coin, loading = false }: CoinCardProps) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
   if (loading) return <CoinCardSkeleton />;
 
   const isPositive = coin.priceChangePercentage24h >= 0;
@@ -51,15 +45,14 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
     <Link href={`/coins/${coin.id}`}>
       <Card
         sx={(theme) => ({
-          // Responsive width and height
           width: {
-            xs: '100%',      // Full width on mobile
-            sm: 320,         // Slightly wider on tablet
-            md: 280          // Original width on desktop
+            xs: '100%',
+            sm: 320,
+            md: 280
           },
           height: {
-            xs: 'auto',      // Auto height on mobile
-            md: '100%'       // Full height on desktop
+            xs: 'auto',
+            md: '100%'
           },
           flexShrink: 0,
           cursor: "pointer",
@@ -75,60 +68,126 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
           p: { xs: 1.5, sm: 2 }, 
           "&:last-child": { pb: { xs: 1.5, sm: 2 } } 
         }}>
-          {/* Mobile Layout: Horizontal */}
-          {isMobile ? (
-            <Box display="flex" alignItems="center" gap={2}>
-              {/* Left: Avatar and Name */}
-              <Box display="flex" alignItems="center" gap={1.5} flex="0 0 auto">
-                <Avatar
-                  src={coin.image}
-                  alt={coin.name}
-                  sx={{ width: 32, height: 32 }}
-                />
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    component="h3"
-                    sx={{ fontWeight: 600, fontSize: "0.875rem", lineHeight: 1.2 }}
-                  >
-                    {coin.name}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {coin.symbol}
-                  </Typography>
-                </Box>
-              </Box>
-
-              {/* Center: Price and Change */}
-              <Box flex="1" textAlign="center">
+          {/* Single layout that adapts responsively */}
+          <Box 
+            display="flex" 
+            sx={{
+              // Mobile: horizontal layout, Desktop: vertical layout
+              flexDirection: { xs: 'row', sm: 'column' },
+              alignItems: { xs: 'center', sm: 'flex-start' },
+              gap: { xs: 2, sm: 0 }
+            }}
+          >
+            {/* Avatar and Name Section */}
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              gap={1.5}
+              sx={{
+                flex: { xs: '0 0 auto', sm: 'none' },
+                mb: { xs: 0, sm: 2 },
+                justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+              }}
+            >
+              <Avatar
+                src={coin.image}
+                alt={coin.name}
+                sx={{ 
+                  width: { xs: 32, sm: 36, md: 40 }, 
+                  height: { xs: 32, sm: 36, md: 40 } 
+                }}
+              />
+              <Box>
                 <Typography
-                  variant="h6"
-                  component="p"
-                  sx={{ fontWeight: 700, fontSize: "0.95rem", mb: 0.5 }}
+                  variant="subtitle2"
+                  component="h3"
+                  sx={{ 
+                    fontWeight: 600, 
+                    fontSize: { xs: "0.875rem", sm: "0.9rem", md: "1rem" },
+                    lineHeight: { xs: 1.2, sm: 'normal' }
+                  }}
                 >
-                  {formatCurrency(coin.currentPrice)}
+                  {coin.name}
                 </Typography>
-                <Box display="flex" alignItems="center" justifyContent="center" gap={0.5}>
-                  {isPositive ? (
-                    <TrendingUp sx={{ fontSize: 14, color: "success.main" }} />
-                  ) : (
-                    <TrendingDown sx={{ fontSize: 14, color: "error.main" }} />
-                  )}
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: isPositive ? "#6878E2" : "error.main",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {isPositive ? "+" : ""}
-                    {coin.priceChangePercentage24h?.toFixed(2)}%
-                  </Typography>
-                </Box>
+                <Typography 
+                  variant="caption" 
+                  color="text.secondary"
+                  sx={{ fontSize: { sm: "0.875rem" } }}
+                >
+                  {coin.symbol}
+                </Typography>
               </Box>
+            </Box>
 
-              {/* Right: Rank and Market Cap */}
-              <Box flex="0 0 auto" textAlign="right">
+            {/* Price Section */}
+            <Box 
+              sx={{
+                flex: { xs: '1', sm: 'none' },
+                textAlign: { xs: 'center', sm: 'left' },
+                mb: { xs: 0, sm: 1 }
+              }}
+            >
+              <Typography
+                variant="h6"
+                component="p"
+                sx={{ 
+                  fontWeight: 700, 
+                  fontSize: { xs: "0.95rem", sm: "1.1rem", md: "1.5rem" },
+                  mb: { xs: 0.5, sm: 0 }
+                }}
+              >
+                {formatCurrency(coin.currentPrice)}
+              </Typography>
+
+              {/* Price Change */}
+              <Box 
+                display="flex" 
+                alignItems="center" 
+                gap={0.5}
+                sx={{
+                  justifyContent: { xs: 'center', sm: 'flex-start' },
+                  mb: { xs: 0, sm: 2 }
+                }}
+              >
+                {isPositive ? (
+                  <TrendingUp sx={{ fontSize: { xs: 14, sm: 16 }, color: "success.main" }} />
+                ) : (
+                  <TrendingDown sx={{ fontSize: { xs: 14, sm: 16 }, color: "error.main" }} />
+                )}
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: isPositive ? "#6878E2" : "error.main",
+                    fontWeight: 600,
+                    fontSize: { sm: "0.875rem" }
+                  }}
+                >
+                  {isPositive ? "+" : ""}
+                  {coin.priceChangePercentage24h?.toFixed(2)}%
+                </Typography>
+                
+                {/* Price change amount - hidden on mobile */}
+                <Typography 
+                  variant="body2" 
+                  color="text.secondary"
+                  sx={{ display: { xs: 'none', sm: 'inline' } }}
+                >
+                  ({isPositive ? "+" : ""}
+                  {formatCurrency(coin.priceChange24h)})
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Market Info Section */}
+            <Box 
+              sx={{
+                flex: { xs: '0 0 auto', sm: 'none' },
+                textAlign: { xs: 'right', sm: 'left' },
+                width: { xs: 'auto', sm: '100%' }
+              }}
+            >
+              {/* Mobile: Rank and Market Cap only */}
+              <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 <Chip
                   label={`#${coin.marketCapRank}`}
                   size="small"
@@ -143,86 +202,10 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
                   {formatMarketCap(coin.marketCap)}
                 </Typography>
               </Box>
-            </Box>
-          ) : (
-            <>
-              {/* Header with Avatar */}
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
-                mb={2}
-              >
-                <Box display="flex" alignItems="center" gap={1.5}>
-                  <Avatar
-                    src={coin.image}
-                    alt={coin.name}
-                    sx={{ 
-                      width: { sm: 36, md: 40 }, 
-                      height: { sm: 36, md: 40 } 
-                    }}
-                  />
-                  <Box>
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      sx={{ 
-                        fontWeight: 600, 
-                        fontSize: { sm: "0.9rem", md: "1rem" }
-                      }}
-                    >
-                      {coin.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {coin.symbol}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
 
-              {/* Price */}
-              <Typography
-                variant="h5"
-                component="p"
-                sx={{ 
-                  fontWeight: 700, 
-                  mb: 1,
-                  fontSize: { sm: "1.1rem", md: "1.5rem" }
-                }}
-              >
-                {formatCurrency(coin.currentPrice)}
-              </Typography>
-
-              {/* Price Change */}
-              <Box display="flex" alignItems="center" gap={0.5} mb={2}>
-                {isPositive ? (
-                  <TrendingUp sx={{ fontSize: 16, color: "success.main" }} />
-                ) : (
-                  <TrendingDown sx={{ fontSize: 16, color: "error.main" }} />
-                )}
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: isPositive ? "#6878E2" : "error.main",
-                    fontWeight: 600,
-                  }}
-                >
-                  {isPositive ? "+" : ""}
-                  {coin.priceChangePercentage24h?.toFixed(2)}%
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ({isPositive ? "+" : ""}
-                  {formatCurrency(coin.priceChange24h)})
-                </Typography>
-              </Box>
-
-              {/* Market Info */}
-              <Box display="flex" flexDirection="column" gap={1}>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
+              {/* Desktop: Full market info */}
+              <Box sx={{ display: { xs: 'none', sm: 'flex' }, flexDirection: 'column', gap: 1 }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="body2" color="text.secondary">
                     Market Cap
                   </Typography>
@@ -231,11 +214,7 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
                   </Typography>
                 </Box>
 
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
+                <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="body2" color="text.secondary">
                     Rank
                   </Typography>
@@ -247,11 +226,7 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
                   />
                 </Box>
 
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
+                <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="body2" color="text.secondary">
                     24h Volume
                   </Typography>
@@ -260,8 +235,8 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
                   </Typography>
                 </Box>
               </Box>
-            </>
-          )}
+            </Box>
+          </Box>
         </CardContent>
       </Card>
     </Link>

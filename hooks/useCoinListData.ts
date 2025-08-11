@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CoinGeckoService } from "@/lib/api/coingecko";
 import { Coin } from "@/types/crypto";

@@ -65,8 +65,9 @@ export default function CoinCard({ coin, loading = false }: CoinCardProps) {
           cursor: "pointer",
           transition: "all 0.2s ease-in-out",
           position: "relative",
+          border: `1px solid ${theme.palette.background.paper}`,
           "&:hover": {
-            boxShadow: `0 2px 10px ${theme.palette.primary.main}`,
+            border: `1px solid ${theme.palette.primary.main}`,
           },
         })}
       >

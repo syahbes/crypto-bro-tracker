@@ -137,10 +137,15 @@ export default function CoinDetailHeader({
             onClick={onToggleFavorite}
             color={isFavorite ? "primary" : "default"}
             size={isSmall ? "small" : "medium"}
+            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
           >
             {isFavorite ? <Bookmark /> : <BookmarkBorder />}
           </IconButton>
-          <IconButton onClick={onShare} size={isSmall ? "small" : "medium"}>
+          <IconButton
+            onClick={onShare}
+            size={isSmall ? "small" : "medium"}
+            title="Share"
+          >
             <Share />
           </IconButton>
         </Box>
